@@ -19,6 +19,5 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         _rb.AddForce(new Vector3(Input.acceleration.x * _tiltForce, 0));
-        print(Mathf.PerlinNoise(0, 0));
     }
 }

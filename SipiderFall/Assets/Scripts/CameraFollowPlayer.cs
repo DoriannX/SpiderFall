@@ -14,7 +14,7 @@ public class CameraFollowPlayer : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
-        _playerTransform = _playerTransform;
+        _playerTransform = _player.transform;
     }
 
     void FixedUpdate()
