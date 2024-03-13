@@ -1,91 +1,51 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class ProceduralGeneration : MonoBehaviour
 {
-    [SerializeField] int width, height;
-    [SerializeField] float smoothness;
     [SerializeField] float seed;
-    [SerializeField] TileBase groundTile;
-    [SerializeField] Tilemap groundTileMap;
+    [SerializeField] GameObject _tile;
+    [SerializeField] GameObject _player;
+    Transform _playerTransform;
+    [SerializeField] GameObject _wall;
+    List<Transform> _wallsTransform = new List<Transform>();
     int[,] map;
 
     private void Start()
     {
-        Generation();
-        
+        _playerTransform = _player.transform;
+        _wallsTransform.Add(Instantiate(_wall, new Vector3(-Camera.main.orthographicSize/2, 0), Quaternion.identity).transform);
+        _wallsTransform.Add(Instantiate(_wall, new Vector3(Camera.main.orthographicSize/2, 0), Quaternion.identity).transform);
+        seed = Random.Range(0, 100000);
+        GenerationMap();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        WallFollowPlayer();
+    }
+
+    public void GenerationMap()
+    {
+        for (int y = (int)_playerTransform.position.y; y > -1000; y--)
         {
-            Generation();
-            print("generation");
-        }
-    }
-
-    public void Generation()
-    {
-        groundTileMap.ClearAllTiles();
-        map = GenerateArray(width, height, true);
-
-        map = TerrainGeneration(map);
-        RenderMap(map, groundTileMap, groundTile);
-    }
-
-    public int[,] GenerateArray(int width, int height, bool empty)
-    {
-        int[,] map = new int[width, height];
-        for(int x = 0; x < width; x++)
-        {
-            for(int y = 0; y < height; y++)
+            for (int x = 0; x < Camera.main.orthographicSize*2; x++)
             {
-                map[x, y] = (empty) ? 0 : 1;
-            }
-        }
-        return map;
-    }
-
-    public int [,] TerrainGeneration(int[,] map)
-    {
-        int perlinWidth;
-
-        for (int y = 0; y < height; y++)
-        {
-            perlinWidth = Mathf.RoundToInt(Mathf.PerlinNoise(y / smoothness, seed) * height / 2);
-            perlinWidth += height /2;
-            for (int x = 0; x < perlinWidth; x++)
-            {
-                map[x, y] = 1;
-            }
-        }
-
-        return map;
-    }
-
-    public void RenderMap(int[,] map, Tilemap groundTileMap, TileBase groundTileBase)
-    {
-        for(int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                if (map[x,y] == 1)
+                if(Mathf.PerlinNoise(x/10f + seed, y/10f + seed) >= .65f)
                 {
-                    groundTileMap.SetTile(new Vector3Int(x, y, 0), groundTileBase);
+                    Instantiate(_tile, new Vector3(x- Camera.main.orthographicSize, y), Quaternion.identity);
                 }
             }
         }
+    }
 
-        for (int x = 0; x < width; x++)
+    private void WallFollowPlayer()
+    {
+        foreach(Transform wall in _wallsTransform)
         {
-            for (int y = 0; y < height; y++)
-            {
-                if (map[x, y] == 1)
-                {
-                    groundTileMap.SetTile(new Vector3Int(x + 75, y, 0), groundTileBase);
-                }
-            }
+            wall.position = new Vector3(wall.position.x, _playerTransform.position.y);
         }
     }
 }

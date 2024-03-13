@@ -21,9 +21,9 @@ public class CameraFollowPlayer : MonoBehaviour
     {
         if (_player != null)
         {
-            Vector3 targetPosition = _playerTransform.position + _offset;
+            Vector3 targetPosition = new Vector3(0, _playerTransform.position.y + _offset.y, -10);
             if(Mathf.Abs(_playerTransform.position.y - _transform.position.y) > 1)
-                _transform.position = new Vector3(_playerTransform.position.x - Vector3.down.x, _playerTransform.position.y - Vector3.down.y, -10);
+                _transform.position = new Vector3(0, _playerTransform.position.y - Vector3.down.y, -10);
             else
                 _transform.position = Vector3.SmoothDamp(_transform.position, targetPosition, ref _velocity, _smoothTime);
         }
