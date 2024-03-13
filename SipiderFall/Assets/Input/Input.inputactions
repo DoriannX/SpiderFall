@@ -1,0 +1,34 @@
+{
+    "name": "Input",
+    "maps": [
+        {
+            "name": "PlayerInput",
+            "id": "4bcc469c-30de-40d7-ab9d-9abe0a8ac3d0",
+            "actions": [
+                {
+                    "name": "Gyro-direction",
+                    "type": "PassThrough",
+                    "id": "533fdd52-b48a-440d-b61e-24d15bd37df0",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d279259e-5d7f-45f7-819b-1d8400d218e2",
+                    "path": "<Gyroscope>/angularVelocity",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Gyro-direction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
