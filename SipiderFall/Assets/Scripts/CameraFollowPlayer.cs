@@ -14,12 +14,15 @@ public class CameraFollowPlayer : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
-        _playerTransform = _player.transform;
+        if (_player)
+            _playerTransform = _player.transform;
+        else
+            Debug.LogError("You forgot to put the player in the serialize field  in CameraFollowPlayer script");
     }
 
     void FixedUpdate()
     {
-        if (_player != null)
+        if (_player)
         {
 
             _transform.position = new Vector3(0, _transform.position.y, 0);

@@ -11,15 +11,19 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _jumpForce = 1;
     [SerializeField] float _maxVelocity = 1;
     [SerializeField] float _shotRange = 1;
+    [SerializeField] float _radius = 1;
+    [SerializeField] int _jumpMulti = 1;
     float _groundRange = .1f;
     
 
     private void Start()
     {
+        
         _gyro = Input.gyro;
         _gyro.enabled = true;
         _rb = GetComponentInChildren<Rigidbody2D>();
         _transform = transform;
+        _groundRange += _transform.localScale.x / 2;
     }
 
     private void Update()
@@ -30,23 +34,25 @@ public class PlayerMovement : MonoBehaviour
 
     public void Attack(InputAction.CallbackContext context)
     {
-        //if (context.started)
+        if (context.started)
         {
-            print(context);
-            Jump();
-
             foreach (Transform child in _transform)
             {
                 child.gameObject.layer = 2;
             }
+            RaycastHit2D hit = Physics2D.Raycast(_transform.position, Vector3.down * _groundRange, _groundRange);
+            bool grounded = hit.collider && hit.transform.parent.TryGetComponent<DestructibleGround>(out DestructibleGround ground);
+            
+            if (grounded)
+                Jump(_jumpForce * _jumpMulti);
+            else
+                Jump(_jumpForce);
 
-            RaycastHit2D hit = Physics2D.Raycast(_transform.position, Vector3.down * _groundRange, 1);
-            bool grounded = hit.collider && hit.transform.parent.TryGetComponent<Ground>(out Ground ground);
-
+            
             if (!grounded)
             {
                 RaycastHit2D shotHit = Physics2D.Raycast(_transform.position, Vector3.down * _shotRange, _shotRange);
-                if (shotHit.collider && shotHit.transform.parent.TryGetComponent<Ground>(out Ground groundShot))
+                if (shotHit.collider && shotHit.transform.parent.TryGetComponent<DestructibleGround>(out DestructibleGround groundShot))
                 {
                     Shot(groundShot);
                 }
@@ -54,12 +60,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Shot(Ground ground = null)
+    private void Shot(DestructibleGround ground = null)
     {
         //make the shoot
         if (ground != null)
         {
-            ground.DestroyGround();
+            ground.DestroyGround(_radius);
         }
         foreach (Transform child in _transform)
         {
@@ -67,11 +73,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Jump()
+    private void Jump(float force)
     {
         if (_rb.velocity.y < 0)
             _rb.velocity = new Vector3(_rb.velocity.x, 0);
         if (_rb.velocity.y <= _maxVelocity)
-            _rb.AddForce(Vector3.up * _jumpForce);
+            _rb.AddForce(Vector3.up * force);
     }
 }

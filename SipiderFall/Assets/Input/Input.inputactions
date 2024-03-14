@@ -25,7 +25,7 @@
                 },
                 {
                     "name": "Click",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "019f7aca-50a3-43e5-82e7-c63370d1b8f0",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -59,7 +59,7 @@
                 {
                     "name": "",
                     "id": "98e93ee7-a720-41ac-a769-7f88b0f9fd14",
-                    "path": "<Touchscreen>/primaryTouch/press",
+                    "path": "<Touchscreen>/primaryTouch/tap",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
