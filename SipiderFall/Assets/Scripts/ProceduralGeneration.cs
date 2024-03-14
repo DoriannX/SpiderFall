@@ -11,6 +11,7 @@ public class ProceduralGeneration : MonoBehaviour
     List<Transform> _wallsTransform = new List<Transform>();
     Transform _transform;
     int[,] map;
+    [SerializeField] int _enemyAmount;
     private void Awake()
     {
         _transform = transform;
@@ -29,7 +30,7 @@ public class ProceduralGeneration : MonoBehaviour
         else
             Debug.LogError("You forgot to put the wall in the serialize field in ProceduralGeneration script");
 
-        _seed = Random.Range(0, 100000);
+        _seed = Random.Range(-100000, 100000);
         GenerationMap();
     }
 

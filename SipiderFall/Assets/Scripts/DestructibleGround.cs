@@ -9,6 +9,7 @@ public class DestructibleGround : MonoBehaviour
     {
         _transform = transform;
     }
+
     public void DestroyGround(float radius)
     {
         print("destroy");
