@@ -15,6 +15,7 @@ public class ProceduralGeneration : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
+
     }
     private void Start()
     {
@@ -31,7 +32,9 @@ public class ProceduralGeneration : MonoBehaviour
             Debug.LogError("You forgot to put the wall in the serialize field in ProceduralGeneration script");
 
         _seed = Random.Range(-100000, 100000);
+
         GenerationMap();
+        EnemyManager.Instance.SpawnEnemies();
     }
 
     private void FixedUpdate()

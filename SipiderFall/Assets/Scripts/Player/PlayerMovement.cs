@@ -1,5 +1,7 @@
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using CandyCoded.HapticFeedback;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,8 +15,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _shotRange = 1;
     [SerializeField] float _radius = 1;
     [SerializeField] int _jumpMulti = 1;
+    [SerializeField] float _playerDamage;
     float _groundRange = .1f;
-    
+    CinemachineImpulseSource _impuleSource;
+
+    private void Awake()
+    {
+        _impuleSource = GetComponent<CinemachineImpulseSource>();
+    }
 
     private void Start()
     {
@@ -36,37 +44,46 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.started)
         {
+            HapticFeedback.LightFeedback();
             foreach (Transform child in _transform)
             {
                 child.gameObject.layer = 2;
             }
-            RaycastHit2D hit = Physics2D.Raycast(_transform.position, Vector3.down * _groundRange, _groundRange);
-            bool grounded = hit.collider && hit.transform.parent.TryGetComponent<DestructibleGround>(out DestructibleGround ground);
+            bool grounded = Tools.IsGrounded(gameObject, _groundRange);
             
             if (grounded)
+            {
+                _impuleSource.GenerateImpulse(new Vector3(.5f, .5f));
                 Jump(_jumpForce * _jumpMulti);
+            }
             else
                 Jump(_jumpForce);
 
             
             if (!grounded)
             {
-                RaycastHit2D shotHit = Physics2D.Raycast(_transform.position, Vector3.down * _shotRange, _shotRange);
-                if (shotHit.collider && shotHit.transform.parent.TryGetComponent<DestructibleGround>(out DestructibleGround groundShot))
-                {
-                    Shot(groundShot);
-                }
+                Shot();
             }
         }
     }
 
-    private void Shot(DestructibleGround ground = null)
+    private void Shot()
     {
-        //make the shoot
-        if (ground != null)
+        RaycastHit2D shotHit = Physics2D.Raycast(_transform.position, Vector3.down * _shotRange, _shotRange);
+        _impuleSource.GenerateImpulse(new Vector3(.05f, .05f));
+        if (shotHit.collider)
         {
-            ground.DestroyGround(_radius);
+            _impuleSource.GenerateImpulse(new Vector3(.25f, .25f));
+            if (shotHit.collider.transform.parent.TryGetComponent<DestructibleGround>(out DestructibleGround groundShot))
+            {
+                groundShot.DestroyGround(_radius);
+            }
+            if (shotHit.collider.transform.parent.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                enemy.TakeDamage(_playerDamage);
+            }
         }
+
         foreach (Transform child in _transform)
         {
             child.gameObject.layer = 3;

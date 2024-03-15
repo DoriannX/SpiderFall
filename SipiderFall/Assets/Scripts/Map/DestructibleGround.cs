@@ -12,7 +12,6 @@ public class DestructibleGround : MonoBehaviour
 
     public void DestroyGround(float radius)
     {
-        print("destroy");
         RaycastHit2D[] circlecCasts = Physics2D.CircleCastAll(_transform.position, radius, Vector3.zero);
         Destroy(gameObject);
         foreach(RaycastHit2D blocAround in circlecCasts)

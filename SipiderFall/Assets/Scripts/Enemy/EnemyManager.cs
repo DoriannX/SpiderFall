@@ -13,6 +13,9 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] int _maxEnemyAmount;
     [SerializeField] float _enemySpawnRate;
     [SerializeField] GameObject _wallParent;
+    [SerializeField] int _iterMax = 1;
+
+    
  
     private void Awake()
     {
@@ -23,7 +26,7 @@ public class EnemyManager : MonoBehaviour
 
     private void Start()
     {
-        SpawnEnemies();
+        
     }
     public void SpawnEnemies()
     {
@@ -40,16 +43,30 @@ public class EnemyManager : MonoBehaviour
         
         if (_enemy)
         {
+            int i = 0;
             while (_enemyAmount < _maxEnemyAmount)
             {
-                if (Random.Range(0, 1) < _enemySpawnRate / 100)
+
+                bool spawn = true;
+                Vector3 randomPos = walls[(int)Random.Range(0, walls.Count - 1)].transform.position + Vector3.up;
+                Collider2D[] hit = Physics2D.OverlapCircleAll(randomPos, .1f);
+
+                foreach(Collider2D hit2d in hit)
                 {
-                    print(_enemySpawnRate / 100);
-                    if (_enemyAmount < _maxEnemyAmount)
+                    if(hit2d != null)
                     {
-                        _enemyList.Add(Instantiate(_enemy, walls[(int)Random.Range(0, walls.Count)].transform.position + Vector3.up, Quaternion.identity, _transform));
-                        _enemyAmount++;
+                        spawn = false;
                     }
+                }
+                if (spawn)
+                {
+                    _enemyList.Add(Instantiate(_enemy, randomPos, Quaternion.identity, _transform));
+                    _enemyAmount++;
+                }
+                i++;
+                if(i >= _iterMax)
+                {
+                    break;
                 }
             }
         }
