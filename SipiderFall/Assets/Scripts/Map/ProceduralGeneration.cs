@@ -3,15 +3,22 @@ using UnityEngine;
 
 public class ProceduralGeneration : MonoBehaviour
 {
-    float _seed;
+
+    //Components
     [SerializeField] GameObject _tile;
     [SerializeField] GameObject _player;
-    Transform _playerTransform;
     [SerializeField] GameObject _wall;
-    List<Transform> _wallsTransform = new List<Transform>();
     Transform _transform;
+    Transform _playerTransform;
+
+    //map
+    float _seed;
+    List<Transform> _wallsTransform = new List<Transform>();
     int[,] map;
+
+    //enemies
     [SerializeField] int _enemyAmount;
+
     private void Awake()
     {
         _transform = transform;

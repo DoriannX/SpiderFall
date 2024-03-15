@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DestructibleGround : MonoBehaviour
 {
-
+    //Component
     private Transform _transform;
 
     private void Awake()
@@ -12,14 +12,15 @@ public class DestructibleGround : MonoBehaviour
 
     public void DestroyGround(float radius)
     {
-        RaycastHit2D[] circlecCasts = Physics2D.CircleCastAll(_transform.position, radius, Vector3.zero);
-        Destroy(gameObject);
-        foreach(RaycastHit2D blocAround in circlecCasts)
+        Collider2D[] circlecCasts = Physics2D.OverlapCircleAll(_transform.position, radius);
+
+        foreach(Collider2D blocAround in circlecCasts)
         {
             GameObject parent = blocAround.transform.parent.gameObject;
             if (parent.TryGetComponent<DestructibleGround>(out DestructibleGround ground))
                 Destroy(parent);
         }
-         
+        Destroy(gameObject);
+
     }
 }

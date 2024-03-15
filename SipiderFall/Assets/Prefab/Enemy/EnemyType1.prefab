@@ -48,10 +48,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 508411819a8b53642927bd522dd036a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthpoint: 10
+  _maxHealth: 10
   _borderDetecterRange: 0.1
   _groundRange: 0.1
   _moveForce: 1
+  _maxVelocity: 1
+  _distortionSize: 5
 --- !u!50 &7875705877943835666
 Rigidbody2D:
   serializedVersion: 4
@@ -78,7 +80,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &8768653934707071901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +133,7 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
-  m_DefaultVelocity: {x: -1, y: -1, z: 0}
+  m_DefaultVelocity: {x: 0, y: -1, z: 0}
 --- !u!1 &4010548166456953786
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,7 +275,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.75, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

@@ -3,13 +3,14 @@ using static UnityEngine.GraphicsBuffer;
 
 public class CameraFollowPlayer : MonoBehaviour
 {
+    //Components
     [SerializeField] GameObject _player;
-
-    [SerializeField] Vector3 _offset = new Vector3(0f, 0f, -10f);
-    //[SerializeField] float _smoothTime = 0.25f;
-    Vector3 _velocity = Vector3.zero;
     Transform _transform;
     Transform _playerTransform;
+
+    //Camera
+    [SerializeField] Vector3 _offset = new Vector3(0f, 0f, -10f);
+    Vector3 _velocity = Vector3.zero;
 
     private void Awake()
     {
