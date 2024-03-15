@@ -50,11 +50,11 @@ public class ProceduralGeneration : MonoBehaviour
             {
                 for (int y = (int)_playerTransform.position.y; y > -1000; y--)
                 {
-                    for (int x = 0; x < Camera.main.orthographicSize * 2; x++)
+                    for (int x = 0; x < Camera.main.orthographicSize; x++)
                     {
                         if (Mathf.PerlinNoise(x / 10f + _seed, y / 10f + _seed) >= .65f)
                         {
-                            Instantiate(_tile, new Vector3(x - Camera.main.orthographicSize, y), Quaternion.identity, _transform);
+                            Instantiate(_tile, new Vector3(x - Camera.main.orthographicSize / 2, y), Quaternion.identity, _transform);
                         }
                     }
                 }

@@ -618,7 +618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemy: {fileID: 1031693834651078201, guid: 52d632772aa7cd14e989e68fc3a10e91, type: 3}
-  _maxEnemyAmount: 100
+  _maxEnemyAmount: 10
   _enemySpawnRate: 20
   _wallParent: {fileID: 1284911156}
   _iterMax: 1000
