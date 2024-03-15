@@ -108,7 +108,7 @@ public class Enemy : MonoBehaviour
         {
             _direction = Vector3.left;
         }
-        _rb.velocity = new Vector3(_rb.velocity.x, _direction.y * _moveForce);
+        _rb.velocity = new Vector3(_direction.x * _moveForce, _rb.velocity.y);
 
     }
 }
