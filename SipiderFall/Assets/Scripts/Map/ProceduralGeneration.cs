@@ -7,8 +7,10 @@ public class ProceduralGeneration : MonoBehaviour
     //Components
     [SerializeField] GameObject _blocPrefab;
     [SerializeField] GameObject _player;
+    [SerializeField] float _mapSize;
     Transform _transform;
     Transform _playerTransform;
+    [SerializeField] Transform _finishLineTransform;
 
     //map
     float _seed;
@@ -62,7 +64,7 @@ public class ProceduralGeneration : MonoBehaviour
         {
             if (_blocPrefab)
             {
-                for (int y = (int)_playerTransform.position.y; y > -1000; y--)
+                for (int y = (int)_playerTransform.position.y; y > -_mapSize; y--)
                 {
                     for (int x = 0; x < Camera.main.orthographicSize; x++)
                     {
@@ -72,6 +74,13 @@ public class ProceduralGeneration : MonoBehaviour
                         }
                     }
                 }
+                if (_finishLineTransform)
+                {
+                    _finishLineTransform.localScale = new Vector3(Camera.main.orthographicSize * (Screen.width / Screen.height), _finishLineTransform.localScale.y);
+                    _finishLineTransform.position = new Vector3(0, -_mapSize);
+                }
+                else
+                    Debug.LogError("no finish line transform in ProceduralGeneration");
             }
             else
                 Debug.LogError("You forgot to put the tile in the serialize field in ProceduralGeneration script");

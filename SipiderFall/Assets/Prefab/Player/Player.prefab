@@ -172,6 +172,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3390261335194530625}
+  - component: {fileID: 8229771873733693869}
   - component: {fileID: 6984029892801703490}
   - component: {fileID: 8870460427516506034}
   - component: {fileID: 2217983408917294627}
@@ -202,6 +203,18 @@ Transform:
   - {fileID: 1364781131818260799}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8229771873733693869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2566245103696713572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bbcdb66b64665e4ba2c6a1fed6ed4bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6984029892801703490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,7 +246,7 @@ MonoBehaviour:
   _feet: {fileID: 644785625356526244}
   _obstacleDetecter: {fileID: 4982934962625020868}
   _radius: 1
-  _playerDamage: 1
+  _playerDamage: 10
   ShotRange: 5
   _ray: {fileID: -2442296370023614684, guid: 35119bb1fc851c6438610b3cba44a711, type: 3}
 --- !u!114 &2217983408917294627

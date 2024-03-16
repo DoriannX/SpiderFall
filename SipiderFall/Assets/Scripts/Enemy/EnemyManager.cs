@@ -23,11 +23,6 @@ public class EnemyManager : MonoBehaviour
         if(Instance == null)
             Instance = this;
     }
-
-    private void Start()
-    {
-        
-    }
     public void SpawnEnemies()
     {
         List<GameObject> walls  = new List<GameObject>();

@@ -13,11 +13,10 @@ public class CollectibleEnemy : MonoBehaviour
     [SerializeField] LineController _rope;
 
     //Attraction
-    [SerializeField] float _springForce = 10;
     bool _gathered = false;
-    [SerializeField] float _damper;
     [SerializeField] float _ropeSize;
     [SerializeField] float _enemyMass;
+    [SerializeField] LayerMask _notTouchingDeadEnemies;
 
     private void Awake()
     {
@@ -27,29 +26,15 @@ public class CollectibleEnemy : MonoBehaviour
         _playerTransform = Player.Instance.gameObject.transform;
     }
 
-    private void FixedUpdate()
-    {
-        if (_gathered)
-        {
-            /*Vector3 currentPos = _rb.position;
-            Vector3 velocity = (currentPos - _previousPosition) / Time.fixedDeltaTime;
-            Vector3 anchorToObject = currentPos - _playerTransform.position;
-            float currentLength = anchorToObject.magnitude;
-
-            if(currentLength > _maxDistance)
-            {
-                currentPos = _playerTransform.position + anchorToObject.normalized * _maxDistance;
-                _rb.position = currentPos;
-            }*/
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.transform.parent.gameObject == Player.Instance.gameObject)
+        if(!_gathered && collision.gameObject.transform.parent.gameObject == Player.Instance.gameObject)
         {
             _collider.isTrigger = false;
+            _rb.isKinematic = false;
+            _rb.excludeLayers = _notTouchingDeadEnemies;
             _rb.mass = _enemyMass;
+            _rb.gravityScale = 10f;
             _gathered=true;
 
             if(_playerTransform.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
@@ -67,6 +52,9 @@ public class CollectibleEnemy : MonoBehaviour
             }
             else
                 Debug.LogError("not rope in CollectibleEnemy");
+            if(_playerTransform.gameObject.TryGetComponent<GatheredEnemyCounter>(out GatheredEnemyCounter gatheredEnemyCounter)){
+                gatheredEnemyCounter.AddGatheredEnemy();
+            }
         }
     }
 }

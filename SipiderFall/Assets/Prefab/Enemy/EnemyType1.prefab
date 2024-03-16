@@ -153,10 +153,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rope: {fileID: -4169351983521155005, guid: ae69f30a73cacd6409843ab99c4717cc, type: 3}
-  _springForce: 10
-  _damper: 1
   _ropeSize: 5
-  _enemyMass: 0.01
+  _enemyMass: 0.001
+  _notTouchingDeadEnemies:
+    serializedVersion: 2
+    m_Bits: 127
 --- !u!1 &4010548166456953786
 GameObject:
   m_ObjectHideFlags: 0

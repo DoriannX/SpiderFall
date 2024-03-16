@@ -28,13 +28,12 @@ public class PlayerMovement : MonoBehaviour
     {
         _playerAttack = GetComponent<PlayerAttack>();
         _impulseSource = GetComponent<CinemachineImpulseSource>();
+        _rb = GetComponentInChildren<Rigidbody2D>();
+        _transform = transform;
     }
 
     private void Start()
     {
-        
-        _rb = GetComponentInChildren<Rigidbody2D>();
-        _transform = transform;
         _groundRange += _transform.localScale.x / 2;
     }
 
@@ -42,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if ((Input.acceleration.x > 0))
         {
-            _velocityX = Input.acceleration.x * _tiltForce;
+            _velocityX = Input.acceleration.x * _tiltForce * Time.deltaTime * 10;
         }
         _rb.AddForce(new Vector3(_velocityX , 0));
     }
