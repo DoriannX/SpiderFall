@@ -152,8 +152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8343e5a8a256941a82bac3eff9f91f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attractionForce: 100
-  _maxDistance: 1
+  _rope: {fileID: -4169351983521155005, guid: ae69f30a73cacd6409843ab99c4717cc, type: 3}
+  _springForce: 10
+  _damper: 1
+  _ropeSize: 5
+  _enemyMass: 0.01
 --- !u!1 &4010548166456953786
 GameObject:
   m_ObjectHideFlags: 0

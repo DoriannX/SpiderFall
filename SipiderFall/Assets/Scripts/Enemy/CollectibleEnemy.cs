@@ -6,31 +6,41 @@ public class CollectibleEnemy : MonoBehaviour
 {
 
     //Components
-    Transform _player;
+    Transform _playerTransform;
     Rigidbody2D _rb;
     Transform _transform;
     Collider2D _collider;
+    [SerializeField] LineController _rope;
 
     //Attraction
-    [SerializeField] float _attractionForce = 10;
-    [SerializeField] float _maxDistance = 10;
-    float _actualDistance;
+    [SerializeField] float _springForce = 10;
+    bool _gathered = false;
+    [SerializeField] float _damper;
+    [SerializeField] float _ropeSize;
+    [SerializeField] float _enemyMass;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _transform = transform;
         _collider = GetComponentInChildren<Collider2D>();
-        _player = Player.Instance.gameObject.transform;
+        _playerTransform = Player.Instance.gameObject.transform;
     }
 
     private void FixedUpdate()
     {
-        _actualDistance = Vector2.Distance(_player.position, _transform.position);
-        _rb.AddForce((_player.position - _transform.position) * _attractionForce * Time.fixedDeltaTime);
-        if(_actualDistance < _maxDistance)
+        if (_gathered)
         {
-            _rb.AddForce(-_rb.velocity * Time.smoothDeltaTime);
+            /*Vector3 currentPos = _rb.position;
+            Vector3 velocity = (currentPos - _previousPosition) / Time.fixedDeltaTime;
+            Vector3 anchorToObject = currentPos - _playerTransform.position;
+            float currentLength = anchorToObject.magnitude;
+
+            if(currentLength > _maxDistance)
+            {
+                currentPos = _playerTransform.position + anchorToObject.normalized * _maxDistance;
+                _rb.position = currentPos;
+            }*/
         }
     }
 
@@ -38,10 +48,25 @@ public class CollectibleEnemy : MonoBehaviour
     {
         if(collision.gameObject.transform.parent.gameObject == Player.Instance.gameObject)
         {
-            gameObject.transform.parent = collision.gameObject.transform;
-            _rb.isKinematic = false;
-            _rb.gravityScale = 0;
-            Destroy(_collider);
+            _collider.isTrigger = false;
+            _rb.mass = _enemyMass;
+            _gathered=true;
+
+            if(_playerTransform.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
+            {
+                DistanceJoint2D joint = gameObject.AddComponent<DistanceJoint2D>();
+                joint.connectedBody = rb;
+                joint.autoConfigureDistance = false;
+                joint.distance = _ropeSize;
+                joint.maxDistanceOnly = true;
+            }
+            if (_rope)
+            {
+                LineController rope = Instantiate(_rope, _playerTransform);
+                rope.SetUpLine(new Transform[] { _playerTransform, _transform });
+            }
+            else
+                Debug.LogError("not rope in CollectibleEnemy");
         }
     }
 }
