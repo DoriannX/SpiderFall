@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -5272787806416311213}
   - component: {fileID: 7875705877943835666}
   - component: {fileID: 8768653934707071901}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EnemyType1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,10 +49,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 10
+  _enemyDamage: 1
   _borderDetecterRange: 0.1
   _groundRange: 0.1
   _moveForce: 1
-  _maxVelocity: 1
+  _maxVelocity: 5
+  _enemyPlayerDetecter: {fileID: 691267299383770123}
   _distortionSize: 5
 --- !u!50 &7875705877943835666
 Rigidbody2D:
@@ -76,7 +78,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -144,7 +146,8 @@ GameObject:
   m_Component:
   - component: {fileID: 9209727658313700582}
   - component: {fileID: 8800002307549227163}
-  m_Layer: 0
+  - component: {fileID: 691267299383770123}
+  m_Layer: 7
   m_Name: Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +184,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -201,6 +204,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &691267299383770123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4010548166456953786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf3450b26b4d564db961945920f2670, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DetectedPlayer: []
+  PlayerDetected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7539516340004540246
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,7 +230,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4971706349558396116}
   - component: {fileID: 706721610871044639}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}

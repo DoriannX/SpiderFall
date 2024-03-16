@@ -49,7 +49,6 @@ public class PlayerAttack : MonoBehaviour
         {
             if (_feetDetect.EnemyTouched.transform.parent.TryGetComponent<Enemy>(out Enemy enemy))
             {
-                print("attack");
                 if (_rb)
                 {
                     if (_playerMovement)

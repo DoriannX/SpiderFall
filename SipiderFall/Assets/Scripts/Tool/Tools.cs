@@ -19,4 +19,18 @@ public class Tools
         Debug.DrawRay(origin, Vector3.down * range, Color.green);
         return grounded;
     }
+
+    public static void SetLayer(GameObject go, int layer)
+    {
+        go.layer = layer;
+        foreach (Transform child in go.transform)
+        {
+            child.gameObject.layer = layer;
+
+            Transform _HasChildren = child.GetComponentInChildren<Transform>();
+            if (_HasChildren != null)
+                SetLayer(child.gameObject, layer);
+
+        }
+    }
 }

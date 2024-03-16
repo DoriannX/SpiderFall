@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _maxVelocity = 1;
     public float JumpForce = 1;
     public int JumpMulti = 1;
+    float _velocityX;
 
     //Component
     Rigidbody2D _rb;
@@ -20,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
 
     //ground
     float _groundRange = .1f;
+
+    
 
     private void Awake()
     {
@@ -37,16 +40,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        _rb.AddForce(new Vector3(Input.acceleration.x * _tiltForce, 0));
+        if ((Input.acceleration.x > 0))
+        {
+            _velocityX = Input.acceleration.x * _tiltForce;
+        }
+        _rb.AddForce(new Vector3(_velocityX , 0));
+    }
+
+    public void MoveDebug(InputAction.CallbackContext ctx)
+    {
+        _velocityX = ctx.ReadValue<Vector2>().x;
     }
 
     void StartMove()
     {
         HapticFeedback.LightFeedback();
-        foreach (Transform child in _transform)
-        {
-            child.gameObject.layer = 2;
-        }
         bool grounded = Tools.IsGrounded(gameObject, _groundRange);
 
         if (grounded)
@@ -85,5 +93,13 @@ public class PlayerMovement : MonoBehaviour
             _rb.velocity = new Vector3(_rb.velocity.x, 0);
         if (_rb.velocity.y <= _maxVelocity)
             _rb.AddForce(Vector3.up * force);
+    }
+
+    public void JumpDebug(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            StartMove();
+        }
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 661467615827584878}
   - component: {fileID: 2473804221644161913}
   - component: {fileID: 3843072729430275679}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Feet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,6 +172,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3390261335194530625}
+  - component: {fileID: 6984029892801703490}
   - component: {fileID: 8870460427516506034}
   - component: {fileID: 2217983408917294627}
   - component: {fileID: 8969711664549178633}
@@ -201,6 +202,22 @@ Transform:
   - {fileID: 1364781131818260799}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6984029892801703490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2566245103696713572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0244df693bad9f42a5e581fd637e433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 10
+  _spriteRenderer: {fileID: 4574944033360012464}
+  _collider: {fileID: 2896931303173671941}
+  _distortionSize: 5
 --- !u!114 &8870460427516506034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,7 +576,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.6666665, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

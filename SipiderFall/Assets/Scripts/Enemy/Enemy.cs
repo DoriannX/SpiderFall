@@ -1,12 +1,16 @@
 using Cinemachine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Enemy : MonoBehaviour
 {
     //stats
 
     [SerializeField] float _maxHealth = 10;
+    [SerializeField] float _enemyDamage = 10;
     float _health;
 
     //detection
@@ -23,6 +27,7 @@ public class Enemy : MonoBehaviour
     Transform _transform;
     Rigidbody2D _rb;
     SpriteRenderer _spriteRenderer;
+    [SerializeField] EnemyPlayerDetecter _enemyPlayerDetecter;
 
     //spriteFeedback
     float _actualColor = 45/360;
@@ -40,17 +45,19 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         _health = _maxHealth;
+        if (_enemyPlayerDetecter)
+            _enemyPlayerDetecter.PlayerDetected.AddListener(Attack);
+        else
+            Debug.LogError("no enemyPlayerDetecter on enemy");
     }
     public void TakeDamage(float damage)
     {
-        print(damage);
         _health -= damage;
         _actualColor = (_health / _maxHealth) * 45/360;
         if (_spriteRenderer)
         {
             _spriteRenderer.color = Color.HSVToRGB(_actualColor, 1, 1);
             StartCoroutine(ChangeSizeRenderer(_spriteRenderer, _distortionSize));
-            print(_actualColor);
         }
         else
             Debug.LogError("There's no sprite renderer on enemy");
@@ -83,32 +90,62 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         Patrol();
     }
 
-    public void Patrol()
+    private void Update()
     {
-        RaycastHit2D leftBorderDetecter = Physics2D.Raycast(_transform.position + new Vector3(0, -.6f, 0) + Vector3.left/2, Vector3.down * _borderDetecterRange, _borderDetecterRange);
-        RaycastHit2D rightBorderDetecter = Physics2D.Raycast(_transform.position + new Vector3(0, -.6f, 0) + Vector3.right/2, Vector3.down * _borderDetecterRange, _borderDetecterRange);
+        DetectBorderAndWall();
+    }
+
+    private void Patrol()
+    {
+        //Set a target velocity
+        Vector2 targetVelocity = _direction * _maxVelocity;
+
+        //Find the change of velocity needed to reach target
+        Vector3 velocityChange = targetVelocity - _rb.velocity;
+
+        //Convert to acceleration, which is change of velocity over time
+        Vector3 acceleration = velocityChange / Time.fixedDeltaTime;
+
+        //Clamp it to your maximum acceleration magnitude
+        acceleration = Vector3.ClampMagnitude(acceleration, _maxVelocity);
+
+        //Then AddForce
+        _rb.AddForce(acceleration, ForceMode2D.Force);
+    }
+
+    private void DetectBorderAndWall()
+    {
+        RaycastHit2D leftBorderDetecter = Physics2D.Raycast(_transform.position + new Vector3(0, -.6f, 0) + Vector3.left / 2, Vector3.down * _borderDetecterRange, _borderDetecterRange);
+        RaycastHit2D rightBorderDetecter = Physics2D.Raycast(_transform.position + new Vector3(0, -.6f, 0) + Vector3.right / 2, Vector3.down * _borderDetecterRange, _borderDetecterRange);
         RaycastHit2D leftWallDetecter = Physics2D.Raycast(_transform.position + new Vector3(-.6f, 0, 0), Vector3.left * _borderDetecterRange, _borderDetecterRange);
         RaycastHit2D rightWallDetecter = Physics2D.Raycast(_transform.position + new Vector3(.6f, 0, 0), Vector3.right * _borderDetecterRange, _borderDetecterRange);
 
-        Debug.DrawRay(_transform.position + new Vector3(-.6f, 0, 0), Vector3.left * _borderDetecterRange, Color.blue);
-        Debug.DrawRay(_transform.position + new Vector3(.6f, 0, 0), Vector3.right * _borderDetecterRange, Color.blue);
-        Debug.DrawRay(_transform.position + new Vector3(0, -.6f, 0) + Vector3.left/2, Vector3.down * _borderDetecterRange, Color.blue);
-        Debug.DrawRay(_transform.position + new Vector3(0, -.6f, 0) + Vector3.right/2, Vector3.down * _borderDetecterRange, Color.blue);
-
-
-        if (_direction == Vector3.left && (!leftBorderDetecter.collider || leftWallDetecter.collider))
+        if (_direction == Vector3.left && (!leftBorderDetecter.collider || (leftWallDetecter.collider && leftWallDetecter.collider.transform.parent.TryGetComponent<DestructibleGround>(out DestructibleGround temp))))
         {
             _direction = Vector3.right;
-        }if (_direction == Vector3.right && (!rightBorderDetecter.collider || rightWallDetecter.collider))
+        }
+        if (_direction == Vector3.right && (!rightBorderDetecter.collider || (rightWallDetecter.collider && rightWallDetecter.collider.transform.parent.TryGetComponent<DestructibleGround>(out temp))))
         {
             _direction = Vector3.left;
         }
-        _rb.velocity = new Vector3(_direction.x * _moveForce, _rb.velocity.y);
+    }
 
+    private void Attack()
+    {
+
+        List<GameObject> detectPlayer = _enemyPlayerDetecter.DetectedPlayer;
+
+        foreach(GameObject player in detectPlayer.ToList())  
+        {
+            if (player.TryGetComponent<Player>(out Player playerScript))
+            {
+                playerScript.TakeDamage(_enemyDamage);
+            }
+        }
     }
 }
