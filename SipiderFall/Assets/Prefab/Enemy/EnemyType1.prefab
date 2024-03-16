@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -5272787806416311213}
   - component: {fileID: 7875705877943835666}
   - component: {fileID: 8768653934707071901}
+  - component: {fileID: 5515250461997301280}
   m_Layer: 7
   m_Name: EnemyType1
   m_TagString: Untagged
@@ -51,14 +52,14 @@ MonoBehaviour:
   _maxHealth: 10
   _enemyDamage: 1
   _borderDetecterRange: 0.1
-  _groundRange: 0.1
-  _moveForce: 1
   _maxVelocity: 5
   _enemyPlayerDetecter: {fileID: 691267299383770123}
   _layerMask:
     serializedVersion: 2
     m_Bits: 247
   _distortionSize: 5
+  _attractionForce: 400
+  _maxDistance: 20
 --- !u!50 &7875705877943835666
 Rigidbody2D:
   serializedVersion: 4
@@ -139,6 +140,20 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!114 &5515250461997301280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031693834651078201}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f8343e5a8a256941a82bac3eff9f91f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attractionForce: 100
+  _maxDistance: 1
 --- !u!1 &4010548166456953786
 GameObject:
   m_ObjectHideFlags: 0

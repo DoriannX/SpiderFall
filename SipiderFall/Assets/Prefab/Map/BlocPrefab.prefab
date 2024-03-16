@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56eac3fb7040c5e4491fbea7511fea00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _circleDraw: {fileID: 3209936479403993228, guid: 872c1245ec24679408dc0dd4a06d4b3c, type: 3}
 --- !u!1 &4250568781763468994
 GameObject:
   m_ObjectHideFlags: 0

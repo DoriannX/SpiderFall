@@ -15,6 +15,15 @@ public class Player : MonoBehaviour
     [SerializeField] float _distortionSize = 1;
     float _actualColor = 200/360;
 
+    //Instance
+    public static Player Instance;
+
+    private void Awake()
+    {
+        if(Instance == null)
+            Instance = this;
+    }
+
     private void Start()
     {
         _health = _maxHealth;

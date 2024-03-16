@@ -27,10 +27,18 @@ public class Enemy : MonoBehaviour
     SpriteRenderer _spriteRenderer;
     [SerializeField] EnemyPlayerDetecter _enemyPlayerDetecter;
     [SerializeField] private LayerMask _layerMask;
-
+    CollectibleEnemy _collectibleEnemy;
+    Collider2D _collider;
+    
+    
     //spriteFeedback
     float _actualColor = 45/360;
     [SerializeField] float _distortionSize = 1;
+
+    //Collectible
+    [SerializeField] float _attractionForce = 10;
+    [SerializeField] float _maxDistance = 10;
+
 
 
     private void Awake()
@@ -39,6 +47,8 @@ public class Enemy : MonoBehaviour
         _transform = transform;
         _rb = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _collider = GetComponentInChildren<Collider2D>();
+        _collectibleEnemy = GetComponent<CollectibleEnemy>();
     }
 
     private void Start()
@@ -48,11 +58,12 @@ public class Enemy : MonoBehaviour
             _enemyPlayerDetecter.PlayerDetected.AddListener(Attack);
         else
             Debug.LogError("no enemyPlayerDetecter on enemy");
+        _collectibleEnemy.enabled = false;
     }
     public void TakeDamage(float damage)
     {
         _health -= damage;
-        _actualColor = (_health / _maxHealth) * 45/360;
+        _actualColor = (_health / _maxHealth) * 45/360; 
         if (_spriteRenderer)
         {
             _spriteRenderer.color = Color.HSVToRGB(_actualColor, 1, 1);
@@ -60,15 +71,11 @@ public class Enemy : MonoBehaviour
         }
         else
             Debug.LogError("There's no sprite renderer on enemy");
-        if (_health <= 0)
-        {
-            Die();
-        }
+        
     }
 
     IEnumerator ChangeSizeRenderer(SpriteRenderer spriteRenderer, float distortionSize)
     {
-
         spriteRenderer.transform.localScale += Vector3.one * distortionSize;
         yield return new WaitForSeconds(.05f);
 
@@ -79,6 +86,10 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(.05f);
 
         spriteRenderer.transform.localScale = Vector3.one;
+        if (_health <= 0)
+        {
+            Die();
+        }
 
     }
 
@@ -86,7 +97,12 @@ public class Enemy : MonoBehaviour
     {
         _impulseSource.GenerateImpulse(new Vector3(0, 1));
         Handheld.Vibrate();
-        Destroy(gameObject);
+        _collectibleEnemy.enabled = true;
+        _collider.isTrigger = true;
+
+        _rb.velocity = Vector2.zero;
+        _rb.isKinematic = true;
+        Destroy(this);
     }
 
     private void FixedUpdate()

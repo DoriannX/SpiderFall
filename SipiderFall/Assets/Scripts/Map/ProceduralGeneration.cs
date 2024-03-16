@@ -37,6 +37,14 @@ public class ProceduralGeneration : MonoBehaviour
         else
             Debug.LogError("You forgot to put the wall in the serialize field in ProceduralGeneration script");
 
+        foreach(Transform wall in  _wallsTransform)
+        {
+            if (wall.TryGetComponent<DestructibleGround>(out DestructibleGround destructibleWall))
+                Destroy(destructibleWall); 
+            wall.localScale = new Vector3(wall.localScale.x, Camera.main.orthographicSize * Screen.width / Screen.height, wall.localScale.z);
+
+        }
+
         _seed = Random.Range(-100000, 100000);
 
         GenerationMap();
@@ -78,11 +86,8 @@ public class ProceduralGeneration : MonoBehaviour
         {
             foreach (Transform wall in _wallsTransform)
             {
-                if(wall.TryGetComponent<DestructibleGround>(out DestructibleGround destructibleWall))
-                    Destroy(destructibleWall);
                 wall.position = new Vector3(wall.position.x, _playerTransform.position.y);
-                wall.localScale = new Vector3(wall.localScale.x, Camera.main.orthographicSize * Screen.width / Screen.height, wall.localScale.z);
-            }
+                }
         }
         else
             Debug.LogError("You forgot to put the wall in the serialize field in ProceduralGeneration script");
