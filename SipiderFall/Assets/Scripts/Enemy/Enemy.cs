@@ -15,10 +15,8 @@ public class Enemy : MonoBehaviour
 
     //detection
     [SerializeField] float _borderDetecterRange = .1f;
-    [SerializeField] float _groundRange = .1f;
 
     //movement
-    [SerializeField] float _moveForce = 1;
     [SerializeField] float _maxVelocity = 1;
     Vector3 _direction = Vector3.right;
 
@@ -28,6 +26,7 @@ public class Enemy : MonoBehaviour
     Rigidbody2D _rb;
     SpriteRenderer _spriteRenderer;
     [SerializeField] EnemyPlayerDetecter _enemyPlayerDetecter;
+    [SerializeField] private LayerMask _layerMask;
 
     //spriteFeedback
     float _actualColor = 45/360;
@@ -120,16 +119,16 @@ public class Enemy : MonoBehaviour
 
     private void DetectBorderAndWall()
     {
-        RaycastHit2D leftBorderDetecter = Physics2D.Raycast(_transform.position + new Vector3(0, -.6f, 0) + Vector3.left / 2, Vector3.down * _borderDetecterRange, _borderDetecterRange);
-        RaycastHit2D rightBorderDetecter = Physics2D.Raycast(_transform.position + new Vector3(0, -.6f, 0) + Vector3.right / 2, Vector3.down * _borderDetecterRange, _borderDetecterRange);
-        RaycastHit2D leftWallDetecter = Physics2D.Raycast(_transform.position + new Vector3(-.6f, 0, 0), Vector3.left * _borderDetecterRange, _borderDetecterRange);
-        RaycastHit2D rightWallDetecter = Physics2D.Raycast(_transform.position + new Vector3(.6f, 0, 0), Vector3.right * _borderDetecterRange, _borderDetecterRange);
+        RaycastHit2D leftBorderDetecter = Physics2D.Raycast(_transform.position + new Vector3(0, -.6f, 0) + Vector3.left / 2, Vector3.down * _borderDetecterRange, _borderDetecterRange, _layerMask);
+        RaycastHit2D rightBorderDetecter = Physics2D.Raycast(_transform.position + new Vector3(0, -.6f, 0) + Vector3.right / 2, Vector3.down * _borderDetecterRange, _borderDetecterRange, _layerMask);
+        RaycastHit2D leftWallDetecter = Physics2D.Raycast(_transform.position + new Vector3(-.6f, 0, 0), Vector3.left * _borderDetecterRange, _borderDetecterRange, _layerMask);
+        RaycastHit2D rightWallDetecter = Physics2D.Raycast(_transform.position + new Vector3(.6f, 0, 0), Vector3.right * _borderDetecterRange, _borderDetecterRange, _layerMask);
 
-        if (_direction == Vector3.left && (!leftBorderDetecter.collider || (leftWallDetecter.collider && leftWallDetecter.collider.transform.parent.TryGetComponent<DestructibleGround>(out DestructibleGround temp))))
+        if (_direction == Vector3.left && (!leftBorderDetecter.collider || (leftWallDetecter.collider && !leftWallDetecter.collider.transform.parent.TryGetComponent<Player>(out Player temp))))
         {
             _direction = Vector3.right;
         }
-        if (_direction == Vector3.right && (!rightBorderDetecter.collider || (rightWallDetecter.collider && rightWallDetecter.collider.transform.parent.TryGetComponent<DestructibleGround>(out temp))))
+        if (_direction == Vector3.right && (!rightBorderDetecter.collider || (rightWallDetecter.collider && !rightWallDetecter.collider.transform.parent.TryGetComponent<Player>(out temp))))
         {
             _direction = Vector3.left;
         }
@@ -140,7 +139,7 @@ public class Enemy : MonoBehaviour
 
         List<GameObject> detectPlayer = _enemyPlayerDetecter.DetectedPlayer;
 
-        foreach(GameObject player in detectPlayer.ToList())  
+        foreach(GameObject player in detectPlayer.ToList())  //detectPlayer is being modified in the foreach so it has to be a copy of the list
         {
             if (player.TryGetComponent<Player>(out Player playerScript))
             {

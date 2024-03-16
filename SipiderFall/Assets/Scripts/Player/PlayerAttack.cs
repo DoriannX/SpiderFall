@@ -1,5 +1,7 @@
 using Cinemachine;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -79,21 +81,21 @@ public class PlayerAttack : MonoBehaviour
         GameObject targetPoint = new GameObject();
         targetPoint.transform.position = _transform.position + Vector3.down * ShotRange;
         
-        foreach (GameObject shotHit in objectDetected)
+        foreach (GameObject shotHit in objectDetected.ToList()) // objectDetected is being modified in the foreach so it has to be a copy of the list
         {
             _impulseSource.GenerateImpulse(new Vector3(0, .25f));
-            if (shotHit.transform.parent.TryGetComponent<DestructibleGround>(out DestructibleGround groundShot))
-            {
-                groundShot.DestroyGround(_radius);
-                targetPoint.transform.position = groundShot.transform.position;
-                break;
-            }
             if (shotHit.transform.parent.TryGetComponent<Enemy>(out Enemy enemy))
             {
                 enemy.TakeDamage(_playerDamage);
                 targetPoint.transform.position = enemy.transform.position;
                 break;
             }
+            if (shotHit.transform.parent.TryGetComponent<DestructibleGround>(out DestructibleGround groundShot))
+            {
+                groundShot.DestroyGround(_radius);
+                targetPoint.transform.position = groundShot.transform.position;
+            }
+            
         }
         LineController shotRay = Instantiate(_ray, _transform);
         shotRay.SetUpLine(new Transform[] { _transform, targetPoint.transform });

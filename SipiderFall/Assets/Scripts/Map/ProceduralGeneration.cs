@@ -5,9 +5,8 @@ public class ProceduralGeneration : MonoBehaviour
 {
 
     //Components
-    [SerializeField] GameObject _tile;
+    [SerializeField] GameObject _blocPrefab;
     [SerializeField] GameObject _player;
-    [SerializeField] GameObject _wall;
     Transform _transform;
     Transform _playerTransform;
 
@@ -30,10 +29,10 @@ public class ProceduralGeneration : MonoBehaviour
             _playerTransform = _player.transform;
         else
             Debug.LogError("You forgot to put the player in the serialize field in ProceduralGeneration script");
-        if (_wall)
+        if (_blocPrefab)
         {
-            _wallsTransform.Add(Instantiate(_wall, new Vector3(-Camera.main.orthographicSize / 2, 0), Quaternion.identity, _transform).transform);
-            _wallsTransform.Add(Instantiate(_wall, new Vector3(Camera.main.orthographicSize / 2, 0), Quaternion.identity, _transform).transform);
+            _wallsTransform.Add(Instantiate(_blocPrefab, new Vector3(-Camera.main.orthographicSize / 2, 0), Quaternion.identity, _transform).transform);
+            _wallsTransform.Add(Instantiate(_blocPrefab, new Vector3(Camera.main.orthographicSize / 2, 0), Quaternion.identity, _transform).transform);
         }
         else
             Debug.LogError("You forgot to put the wall in the serialize field in ProceduralGeneration script");
@@ -53,7 +52,7 @@ public class ProceduralGeneration : MonoBehaviour
     {
         if (_player)
         {
-            if (_tile)
+            if (_blocPrefab)
             {
                 for (int y = (int)_playerTransform.position.y; y > -1000; y--)
                 {
@@ -61,7 +60,7 @@ public class ProceduralGeneration : MonoBehaviour
                     {
                         if (Mathf.PerlinNoise(x / 10f + _seed, y / 10f + _seed) >= .65f)
                         {
-                            Instantiate(_tile, new Vector3(x - Camera.main.orthographicSize / 2, y), Quaternion.identity, _transform);
+                            Instantiate(_blocPrefab, new Vector3(x - Camera.main.orthographicSize / 2, y), Quaternion.identity, _transform);
                         }
                     }
                 }
@@ -75,11 +74,14 @@ public class ProceduralGeneration : MonoBehaviour
 
     private void WallFollowPlayer()
     {
-        if (_wall)
+        if (_blocPrefab)
         {
             foreach (Transform wall in _wallsTransform)
             {
+                if(wall.TryGetComponent<DestructibleGround>(out DestructibleGround destructibleWall))
+                    Destroy(destructibleWall);
                 wall.position = new Vector3(wall.position.x, _playerTransform.position.y);
+                wall.localScale = new Vector3(wall.localScale.x, Camera.main.orthographicSize * Screen.width / Screen.height, wall.localScale.z);
             }
         }
         else

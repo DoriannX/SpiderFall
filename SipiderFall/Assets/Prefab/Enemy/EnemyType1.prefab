@@ -55,6 +55,9 @@ MonoBehaviour:
   _moveForce: 1
   _maxVelocity: 5
   _enemyPlayerDetecter: {fileID: 691267299383770123}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 247
   _distortionSize: 5
 --- !u!50 &7875705877943835666
 Rigidbody2D:
