@@ -33,4 +33,11 @@ public class Tools
 
         }
     }
+
+    public static Vector3 GetScreenSize()
+    {
+        Vector3 screenDimensionsInWorldSpace = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height + 30, Camera.main.transform.position.z)) * 2;
+
+        return screenDimensionsInWorldSpace;
+    }
 }

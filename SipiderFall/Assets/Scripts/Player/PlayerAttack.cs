@@ -6,13 +6,9 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     //Component
-    [SerializeField] GameObject _feet;
     [SerializeField] ObstacleDetecter _obstacleDetecter;
-    FeetDetection _feetDetect;
-    Rigidbody2D _rb;
     Transform _transform;
     CinemachineImpulseSource _impulseSource;
-    PlayerMovement _playerMovement;
 
     //Attack
     [SerializeField] float _radius = 1;
@@ -24,49 +20,8 @@ public class PlayerAttack : MonoBehaviour
     private void Awake()
     {
 
-        _rb = GetComponent<Rigidbody2D>();
-
-        if (_feet)
-            _feetDetect = _feet.GetComponent<FeetDetection>();
-        else
-            Debug.LogError("feetDetect not in PlayerAttack");
-
         _transform = transform;
         _impulseSource = GetComponent<CinemachineImpulseSource>();
-        _playerMovement = GetComponent<PlayerMovement>();
-    }
-
-    private void Start()
-    {
-        if(_feet)
-            _feetDetect.FeetEnterTrigger.AddListener(JumpAttack);
-        else
-            Debug.LogError("feetDetect not in PlayerAttack");
-    }
-
-    void JumpAttack()
-    {
-        if (_feet)
-        {
-            if (_feetDetect.EnemyTouched.transform.parent.TryGetComponent<Enemy>(out Enemy enemy))
-            {
-                if (_rb)
-                {
-                    if (_playerMovement)
-                    {
-                        _playerMovement.Jump(_playerMovement.JumpForce * _playerMovement.JumpMulti);
-}
-                    else
-                        Debug.LogError("No playerMovement in PlayerAttack");
-                }
-                else
-                    Debug.LogError("There's no rigidbody on Player");
-
-                enemy.TakeDamage(_playerDamage);
-            }
-        }
-        else
-            Debug.LogError("feetDetect not in PlayerAttack");
     }
 
     public void DistanceAttack()

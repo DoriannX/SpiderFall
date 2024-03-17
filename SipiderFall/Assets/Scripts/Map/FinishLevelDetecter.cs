@@ -23,7 +23,7 @@ public class FinishLevelDetecter : MonoBehaviour
     {
         if(collision.transform.parent.TryGetComponent<GatheredEnemyCounter>(out GatheredEnemyCounter gatheredEnemyCounter))
         {
-            if (gatheredEnemyCounter.GetGatheredEnemyAmount() > 1){
+            if (gatheredEnemyCounter.GetGatheredEnemyAmount() >= 1){
                 print("congrats you won !");
                 _won = true;
             }
