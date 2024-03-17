@@ -10,16 +10,20 @@ public class Player : MonoBehaviour
     //components
     Transform _transform;
     CinemachineImpulseSource _impulseSource;
+    Rigidbody2D _rb;
 
     //Instance
     public static Player Instance;
 
+    [SerializeField] float _damageImpulsionForce;
+     
     private void Awake()
     {
         if(Instance == null)
             Instance = this;
         _transform = transform;
         _impulseSource = GetComponent<CinemachineImpulseSource>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
@@ -35,6 +39,7 @@ public class Player : MonoBehaviour
         {
             if(child.TryGetComponent<PlayerFeedback>(out PlayerFeedback playerFeedback))
             {
+                _rb.AddForce(Vector3.up * _damageImpulsionForce);
                 StartCoroutine(playerFeedback.Feedback());
                 if (_impulseSource)
                     _impulseSource.GenerateImpulse(10);

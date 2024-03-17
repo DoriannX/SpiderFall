@@ -17,8 +17,12 @@ public class ProceduralGeneration : MonoBehaviour
     List<Transform> _wallsTransform = new List<Transform>();
     int[,] map;
 
+    public static ProceduralGeneration Instance;
+
     private void Awake()
     {
+        if(Instance == null)
+            Instance = this;
         _transform = transform; 
         if (_player)
             _playerTransform = _player.transform;
@@ -36,6 +40,11 @@ public class ProceduralGeneration : MonoBehaviour
         GenerationMap();
 
         EnemyManager.Instance.SpawnEnemies();
+    }
+
+    public float GetMapSize()
+    {
+        return _mapSize;
     }
 
     private void CreateWalls()
