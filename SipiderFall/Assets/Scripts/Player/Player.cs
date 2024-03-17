@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -8,6 +9,7 @@ public class Player : MonoBehaviour
 
     //components
     Transform _transform;
+    CinemachineImpulseSource _impulseSource;
 
     //Instance
     public static Player Instance;
@@ -17,6 +19,7 @@ public class Player : MonoBehaviour
         if(Instance == null)
             Instance = this;
         _transform = transform;
+        _impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     private void Start()
@@ -32,7 +35,11 @@ public class Player : MonoBehaviour
         {
             if(child.TryGetComponent<PlayerFeedback>(out PlayerFeedback playerFeedback))
             {
-                playerFeedback.Feedback();
+                StartCoroutine(playerFeedback.Feedback());
+                if (_impulseSource)
+                    _impulseSource.GenerateImpulse(10);
+                else
+                    Debug.LogError("no impulse source in Player");
                 break;
             }
         }

@@ -1,5 +1,6 @@
 using CandyCoded.HapticFeedback;
 using Cinemachine;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,14 +18,23 @@ public class PlayerMovement : MonoBehaviour
     Transform _transform;
     CinemachineImpulseSource _impulseSource;
     PlayerAttack _playerAttack;
+    [SerializeField] Transform _tutoBlock;
+
+    public bool CanMove = false;
 
     //ground
     float _groundRange = .1f;
 
+    bool _isTuto = true;
+
+    public static PlayerMovement Instance;
     
 
     private void Awake()
     {
+        if(Instance == null)
+            Instance = this;
+
         _playerAttack = GetComponent<PlayerAttack>();
         _impulseSource = GetComponent<CinemachineImpulseSource>();
         _rb = GetComponentInChildren<Rigidbody2D>();
@@ -38,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if ((Mathf.Abs(Input.acceleration.x) > 0))
+        if (CanMove && (Mathf.Abs(Input.acceleration.x) > 0))
         {
             _velocityX = Input.acceleration.x * _tiltForce;
         }
@@ -54,11 +64,26 @@ public class PlayerMovement : MonoBehaviour
         {
             _rb.velocity = new Vector2(Mathf.Sign(_rb.velocity.x) * _maxVelocity, _rb.velocity.y);
         }
+        if (_tutoBlock)
+        {
+            if (_isTuto && _transform.position.y < _tutoBlock.position.y)
+            {
+                _isTuto = false;
+                StartCoroutine(Dialogue.Instance.FinishTuto());
+
+            }
+        }
+        else
+            Debug.LogError("no tutoblock in Player movement");
+
     }
+
+    
 
     public void MoveDebug(InputAction.CallbackContext ctx)
     {
-        _velocityX = ctx.ReadValue<Vector2>().x;
+        if(CanMove)
+            _velocityX = ctx.ReadValue<Vector2>().x;
     }
 
     void Shot()

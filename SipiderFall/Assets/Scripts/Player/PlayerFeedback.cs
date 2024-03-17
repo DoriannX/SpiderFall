@@ -46,9 +46,9 @@ public class PlayerFeedback : MonoBehaviour
         yield return null;
     }
 
-    public void Feedback()
+    public IEnumerator Feedback()
     {
+        yield return StartCoroutine(ChangeSize(_sprite, _distortionSize));
         StartCoroutine(ChangeColor(_sprite));
-        StartCoroutine(ChangeSize(_sprite, _distortionSize));
     }
 }

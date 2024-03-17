@@ -16,6 +16,8 @@ public class CollectibleEnemy : MonoBehaviour
     [SerializeField] float _enemyMass;
     [SerializeField] LayerMask _notTouchingDeadEnemies;
 
+    bool _isTuto = true;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -32,6 +34,10 @@ public class CollectibleEnemy : MonoBehaviour
     {
         if(!_gathered && collision.gameObject.transform.parent.gameObject == Player.Instance.gameObject)
         {
+            if(_isTuto){
+                Dialogue.Instance.NextLine();
+                _isTuto = false;
+            }
             _collider.isTrigger = false;
             ConfigureRigidbody(_rb, false, _notTouchingDeadEnemies, _enemyMass, 10);
             _gathered=true;
