@@ -54,6 +54,7 @@ public class PlayerAttack : MonoBehaviour
         LineController shotRay = Instantiate(_ray, _transform);
         shotRay.SetUpLine(new Transform[] { _transform, targetPoint.transform });
         Destroy(shotRay.gameObject, .5f);
+        Destroy(targetPoint);
     }
 
 
