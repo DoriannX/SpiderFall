@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-using UnityEditor;
 using UnityEngine;
 
 public class CollectibleEnemy : MonoBehaviour
@@ -12,7 +10,7 @@ public class CollectibleEnemy : MonoBehaviour
     Collider2D _collider;
     [SerializeField] LineController _rope;
 
-    //Attraction
+    //Gathering rope
     bool _gathered = false;
     [SerializeField] float _ropeSize;
     [SerializeField] float _enemyMass;
@@ -23,6 +21,10 @@ public class CollectibleEnemy : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _transform = transform;
         _collider = GetComponentInChildren<Collider2D>();
+    }
+
+    private void Start()
+    {
         _playerTransform = Player.Instance.gameObject.transform;
     }
 
@@ -31,19 +33,12 @@ public class CollectibleEnemy : MonoBehaviour
         if(!_gathered && collision.gameObject.transform.parent.gameObject == Player.Instance.gameObject)
         {
             _collider.isTrigger = false;
-            _rb.isKinematic = false;
-            _rb.excludeLayers = _notTouchingDeadEnemies;
-            _rb.mass = _enemyMass;
-            _rb.gravityScale = 10f;
+            ConfigureRigidbody(_rb, false, _notTouchingDeadEnemies, _enemyMass, 10);
             _gathered=true;
 
             if(_playerTransform.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
             {
-                DistanceJoint2D joint = gameObject.AddComponent<DistanceJoint2D>();
-                joint.connectedBody = rb;
-                joint.autoConfigureDistance = false;
-                joint.distance = _ropeSize;
-                joint.maxDistanceOnly = true;
+                CreateJoint(gameObject, rb, false, _ropeSize, true);
             }
             if (_rope)
             {
@@ -56,5 +51,24 @@ public class CollectibleEnemy : MonoBehaviour
                 gatheredEnemyCounter.AddGatheredEnemy();
             }
         }
+    }
+
+    private Rigidbody2D ConfigureRigidbody(Rigidbody2D rb, bool isKinematic, LayerMask excludeLayers, float mass, float gravityScale)
+    {
+        rb.isKinematic = isKinematic;
+        rb.mass = mass;
+        rb.gravityScale = gravityScale;
+        rb.mass = mass;
+        rb.excludeLayers = excludeLayers;
+        return rb;
+    }
+
+    private void CreateJoint(GameObject connectedToJoint, Rigidbody2D connectedBody, bool autoConfigureDistance, float distance, bool maxDistanceOnly)
+    {
+        DistanceJoint2D joint = connectedToJoint.AddComponent<DistanceJoint2D>();
+        joint.connectedBody = connectedBody;
+        joint.autoConfigureDistance = autoConfigureDistance;
+        joint.distance = distance;
+        joint.maxDistanceOnly = maxDistanceOnly;
     }
 }

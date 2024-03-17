@@ -1,7 +1,6 @@
 using Cinemachine;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -70,7 +69,7 @@ public class PlayerAttack : MonoBehaviour
             Debug.LogError("feetDetect not in PlayerAttack");
     }
 
-    public void Shot()
+    public void DistanceAttack()
     {
         _impulseSource.GenerateImpulse(new Vector3(0, .05f));
         List<GameObject> objectDetected = new List<GameObject>();

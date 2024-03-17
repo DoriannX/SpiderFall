@@ -1,6 +1,5 @@
 using CandyCoded.HapticFeedback;
 using Cinemachine;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -39,11 +38,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if ((Input.acceleration.x > 0))
+        if ((Mathf.Abs(Input.acceleration.x) > 0))
         {
-            _velocityX = Input.acceleration.x * _tiltForce * Time.deltaTime * 10;
+            _velocityX = Input.acceleration.x * _tiltForce;
         }
-        _rb.AddForce(new Vector3(_velocityX , 0));
+    }
+
+    private void FixedUpdate()
+    {
+        if (Mathf.Abs(_rb.velocity.x) < _maxVelocity || Mathf.Sign(_velocityX) != Mathf.Sign(_rb.velocity.x))
+        {
+            _rb.AddForce(new Vector3(_velocityX * Time.fixedDeltaTime * 1000, 0));
+        }
+        else
+        {
+            _rb.velocity = new Vector2(Mathf.Sign(_rb.velocity.x) * _maxVelocity, _rb.velocity.y);
+        }
     }
 
     public void MoveDebug(InputAction.CallbackContext ctx)
@@ -51,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
         _velocityX = ctx.ReadValue<Vector2>().x;
     }
 
-    void StartMove()
+    void Shot()
     {
         HapticFeedback.LightFeedback();
         bool grounded = Tools.IsGrounded(gameObject, _groundRange);
@@ -71,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
         if (!grounded)
         {
             if (_playerAttack)
-                _playerAttack.Shot();
+                _playerAttack.DistanceAttack();
             else
                 Debug.LogError("No playerAttack in PlayerMovement");
         }
@@ -82,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.started)
         {
-            StartMove();
+            Shot();
         }
     }
 
@@ -98,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.started)
         {
-            StartMove();
+            Shot();
         }
     }
 }

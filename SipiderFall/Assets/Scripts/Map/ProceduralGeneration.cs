@@ -17,20 +17,29 @@ public class ProceduralGeneration : MonoBehaviour
     List<Transform> _wallsTransform = new List<Transform>();
     int[,] map;
 
-    //enemies
-    [SerializeField] int _enemyAmount;
-
     private void Awake()
     {
-        _transform = transform;
-
-    }
-    private void Start()
-    {
+        _transform = transform; 
         if (_player)
             _playerTransform = _player.transform;
         else
             Debug.LogError("You forgot to put the player in the serialize field in ProceduralGeneration script");
+
+    }
+    private void Start()
+    {
+
+        CreateWalls();
+
+        _seed = Random.Range(-100000, 100000);
+
+        GenerationMap();
+
+        EnemyManager.Instance.SpawnEnemies();
+    }
+
+    private void CreateWalls()
+    {
         if (_blocPrefab)
         {
             _wallsTransform.Add(Instantiate(_blocPrefab, new Vector3(-Camera.main.orthographicSize / 2, 0), Quaternion.identity, _transform).transform);
@@ -38,24 +47,15 @@ public class ProceduralGeneration : MonoBehaviour
         }
         else
             Debug.LogError("You forgot to put the wall in the serialize field in ProceduralGeneration script");
-
-        foreach(Transform wall in  _wallsTransform)
+        
+        foreach (Transform wall in _wallsTransform)
         {
+            WallManager.Instance.AddWalls(wall.gameObject);
             if (wall.TryGetComponent<DestructibleGround>(out DestructibleGround destructibleWall))
-                Destroy(destructibleWall); 
+                Destroy(destructibleWall);
             wall.localScale = new Vector3(wall.localScale.x, Camera.main.orthographicSize * Screen.width / Screen.height, wall.localScale.z);
 
         }
-
-        _seed = Random.Range(-100000, 100000);
-
-        GenerationMap();
-        EnemyManager.Instance.SpawnEnemies();
-    }
-
-    private void FixedUpdate()
-    {
-        WallFollowPlayer();
     }
 
     public void GenerationMap()
@@ -70,7 +70,7 @@ public class ProceduralGeneration : MonoBehaviour
                     {
                         if (Mathf.PerlinNoise(x / 10f + _seed, y / 10f + _seed) >= .65f)
                         {
-                            Instantiate(_blocPrefab, new Vector3(x - Camera.main.orthographicSize / 2, y), Quaternion.identity, _transform);
+                            WallManager.Instance.AddMapBlocs(Instantiate(_blocPrefab, new Vector3(x - Camera.main.orthographicSize / 2, y), Quaternion.identity, _transform));
                         }
                     }
                 }
@@ -87,18 +87,8 @@ public class ProceduralGeneration : MonoBehaviour
         }
         else
             Debug.LogError("You forgot to put the player in the serialize field in ProceduralGeneration script");
+
     }
 
-    private void WallFollowPlayer()
-    {
-        if (_blocPrefab)
-        {
-            foreach (Transform wall in _wallsTransform)
-            {
-                wall.position = new Vector3(wall.position.x, _playerTransform.position.y);
-                }
-        }
-        else
-            Debug.LogError("You forgot to put the wall in the serialize field in ProceduralGeneration script");
-    }
+    
 }

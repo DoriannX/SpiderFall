@@ -1,12 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class EnemyPlayerDetecter : MonoBehaviour
 {
+    //Detected players 
     [HideInInspector] public List<GameObject> DetectedPlayer;
+
+    //Event when a player is detected
     [HideInInspector] public UnityEvent PlayerDetected;
 
     private void OnCollisionEnter2D(Collision2D collision)

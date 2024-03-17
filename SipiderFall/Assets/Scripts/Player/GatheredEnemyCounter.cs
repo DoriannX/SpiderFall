@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GatheredEnemyCounter : MonoBehaviour
 {
+    //The amount of enemy gathered
     int _gatheredEnemy = 0;
 
     public int GetGatheredEnemyAmount()

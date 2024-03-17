@@ -4,19 +4,23 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
 
+    //Enemy
     private List<GameObject> _enemyList = new List<GameObject>();
-    Transform _transform;
-    public static EnemyManager Instance;
-
-    [SerializeField] GameObject _enemy;
     int _enemyAmount;
     [SerializeField] int _maxEnemyAmount;
-    [SerializeField] float _enemySpawnRate;
-    [SerializeField] GameObject _wallParent;
+
+    //Components
+    Transform _transform;
+    [SerializeField] GameObject _enemy;
+
+    //while 
     [SerializeField] int _iterMax = 1;
 
-    
- 
+    //Instance
+    public static EnemyManager Instance;
+
+
+
     private void Awake()
     {
         _transform = transform;
@@ -25,17 +29,7 @@ public class EnemyManager : MonoBehaviour
     }
     public void SpawnEnemies()
     {
-        List<GameObject> walls  = new List<GameObject>();
-        if (_wallParent)
-        {
-            foreach (Transform wall in _wallParent.transform)
-            {
-                walls.Add(wall.gameObject);
-            }
-        }
-        else
-            Debug.LogError("You forgot to put wallParent in EnemyManager");
-        
+        List<GameObject> walls = WallManager.Instance.GetBlocsMap();
         if (_enemy)
         {
             int i = 0;

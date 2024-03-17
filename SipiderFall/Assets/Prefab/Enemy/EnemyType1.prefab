@@ -10,9 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7974076989077791788}
   - component: {fileID: -5272787806416311213}
+  - component: {fileID: 3626697911303473293}
+  - component: {fileID: 2294496438939516936}
+  - component: {fileID: 3148122560533503052}
+  - component: {fileID: 5515250461997301280}
   - component: {fileID: 7875705877943835666}
   - component: {fileID: 8768653934707071901}
-  - component: {fileID: 5515250461997301280}
   m_Layer: 7
   m_Name: EnemyType1
   m_TagString: Untagged
@@ -50,16 +53,67 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 10
-  _enemyDamage: 1
-  _borderDetecterRange: 0.1
-  _maxVelocity: 5
+--- !u!114 &3626697911303473293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031693834651078201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6c573e48107ce74a872985fb940e83c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _enemyPlayerDetecter: {fileID: 691267299383770123}
-  _layerMask:
+  _enemyDamage: 1
+--- !u!114 &2294496438939516936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031693834651078201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c0da2a25a0613241a9ff3d1e2ea5257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _borderDetecterRange: 0.1
+  _borderDetectedLayer:
     serializedVersion: 2
     m_Bits: 247
-  _distortionSize: 5
-  _attractionForce: 400
-  _maxDistance: 20
+--- !u!114 &3148122560533503052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031693834651078201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b215e92a2b715a4083a09175a41f4a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxVelocity: 5
+--- !u!114 &5515250461997301280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031693834651078201}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f8343e5a8a256941a82bac3eff9f91f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rope: {fileID: -4169351983521155005, guid: ae69f30a73cacd6409843ab99c4717cc, type: 3}
+  _ropeSize: 5
+  _enemyMass: 0.001
+  _notTouchingDeadEnemies:
+    serializedVersion: 2
+    m_Bits: 127
 --- !u!50 &7875705877943835666
 Rigidbody2D:
   serializedVersion: 4
@@ -140,24 +194,6 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: 0, y: -1, z: 0}
---- !u!114 &5515250461997301280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1031693834651078201}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f8343e5a8a256941a82bac3eff9f91f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rope: {fileID: -4169351983521155005, guid: ae69f30a73cacd6409843ab99c4717cc, type: 3}
-  _ropeSize: 5
-  _enemyMass: 0.001
-  _notTouchingDeadEnemies:
-    serializedVersion: 2
-    m_Bits: 127
 --- !u!1 &4010548166456953786
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,6 +288,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4971706349558396116}
   - component: {fileID: 706721610871044639}
+  - component: {fileID: 4161010620035100180}
   m_Layer: 7
   m_Name: Visuals
   m_TagString: Untagged
@@ -326,3 +363,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4161010620035100180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7539516340004540246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a2493a348fadf44ea1a94293783e2b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _distortionSize: 5
