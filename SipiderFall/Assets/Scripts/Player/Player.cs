@@ -1,5 +1,7 @@
 using Cinemachine;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -30,6 +32,12 @@ public class Player : MonoBehaviour
     {
         _health = _maxHealth;
     }
+
+    IEnumerator FixInputs()
+    {
+
+        yield return new WaitForSecondsRealtime(1);
+    }
     
     public float TakeDamage(float damage)
     {
@@ -39,7 +47,7 @@ public class Player : MonoBehaviour
         {
             if(child.TryGetComponent<PlayerFeedback>(out PlayerFeedback playerFeedback))
             {
-                _rb.AddForce(Vector3.up * _damageImpulsionForce);
+                _rb.AddForce(Vector3.up * _damageImpulsionForce * Time.deltaTime * 1000);
                 StartCoroutine(playerFeedback.Feedback());
                 if (_impulseSource)
                     _impulseSource.GenerateImpulse(10);

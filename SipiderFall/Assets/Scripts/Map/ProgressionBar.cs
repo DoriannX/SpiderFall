@@ -21,6 +21,5 @@ public class ProgressionBar : MonoBehaviour
     private void Update()
     {
         progress.value = -(_playerTransform.position.y / ProceduralGeneration.Instance.GetMapSize());
-        print(_playerTransform.position.y / ProceduralGeneration.Instance.GetMapSize());
     }
 }

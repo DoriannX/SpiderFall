@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
             StopAllCoroutines();
             Time.timeScale = 1;
             _gameStarted = true;
-            Destroy(_input);
+            //Destroy(_input);
         }
         
     }

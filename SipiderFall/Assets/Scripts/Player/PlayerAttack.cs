@@ -9,6 +9,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] ObstacleDetecter _obstacleDetecter;
     Transform _transform;
     CinemachineImpulseSource _impulseSource;
+    PlayerFeedback _feedback;
 
     //Attack
     [SerializeField] float _radius = 1;
@@ -22,6 +23,7 @@ public class PlayerAttack : MonoBehaviour
 
         _transform = transform;
         _impulseSource = GetComponent<CinemachineImpulseSource>();
+        _feedback = GetComponentInChildren<PlayerFeedback>();
     }
 
     public void DistanceAttack()
@@ -34,7 +36,7 @@ public class PlayerAttack : MonoBehaviour
             Debug.LogError("No obstacle detecter in PlayerAttack");
         GameObject targetPoint = new GameObject();
         targetPoint.transform.position = _transform.position + Vector3.down * ShotRange;
-        
+
         foreach (GameObject shotHit in objectDetected.ToList()) // objectDetected is being modified in the foreach so it has to be a copy of the list
         {
             _impulseSource.GenerateImpulse(new Vector3(0, .25f));

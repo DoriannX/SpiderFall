@@ -41,10 +41,10 @@ public class Enemy : MonoBehaviour
     {
         _health -= damage;
         StartCoroutine(CheckLife());
-        if (_isTuto)
+        if (EnemyManager.Instance.IsTuto)
         {
             Dialogue.Instance.NextLine();
-            _isTuto=false;
+            EnemyManager.Instance.IsTuto = false;
         }
         
     }
@@ -61,8 +61,10 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
-        Dialogue.Instance.NextLine();
-        PlayerMovement.Instance.CanMove = true;
+        if(EnemyManager.Instance.IsTutoDie){
+            Dialogue.Instance.NextLine();
+            EnemyManager.Instance.IsTutoDie = false;
+        }
         _impulseSource.GenerateImpulse(new Vector3(0, 1));
         Handheld.Vibrate();
         _collectibleEnemy.enabled = true;

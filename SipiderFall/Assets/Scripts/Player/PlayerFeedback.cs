@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class PlayerFeedback : MonoBehaviour
 {
@@ -8,14 +9,20 @@ public class PlayerFeedback : MonoBehaviour
     SpriteRenderer _sprite;
     [SerializeField] float _distortionSize;
 
+    [SerializeField] float _squeezeDuration = 0.5f;
+    [SerializeField] Vector3 _horizontalSqueezeScale = new Vector3(1.2f, 0.8f, 1f);
+    [SerializeField] Vector3 _verticalSqueezeScale = new Vector3(0.8f, 1.2f, 1f);
+
+    private Vector3 _originalScale;
+
     private void Awake()
     {
         _sprite = GetComponent<SpriteRenderer>();
+        _originalScale = _sprite.transform.localScale;
     }
 
     IEnumerator ChangeSize(SpriteRenderer sprite, float distortionSize)
     {
-        print("change size");
         Tools.SetLayer(sprite.transform.parent.gameObject, 6);
 
         sprite.transform.localScale += Vector3.one * distortionSize;
@@ -28,8 +35,6 @@ public class PlayerFeedback : MonoBehaviour
         yield return new WaitForSeconds(.05f);
 
         sprite.transform.localScale = Vector3.one;
-        yield return new WaitForSeconds(2f);
-        Tools.SetLayer(sprite.transform.parent.gameObject, 3);
         
 
         yield return null;
@@ -50,5 +55,33 @@ public class PlayerFeedback : MonoBehaviour
     {
         yield return StartCoroutine(ChangeSize(_sprite, _distortionSize));
         StartCoroutine(ChangeColor(_sprite));
+        yield return new WaitForSeconds(2f);
+        Tools.SetLayer(_sprite.transform.parent.gameObject, 3);
+    }
+
+    public IEnumerator Squeeze()
+    {
+        // Squeeze horizontally
+        yield return StartCoroutine(SqueezeTo(_horizontalSqueezeScale));
+
+        // Then squeeze vertically
+        yield return StartCoroutine(SqueezeTo(_verticalSqueezeScale));
+
+        // Then return to original scale
+        yield return StartCoroutine(SqueezeTo(_originalScale));
+    }
+
+    private IEnumerator SqueezeTo(Vector3 targetScale)
+    {
+        float elapsedTime = 0;
+
+        while (elapsedTime < _squeezeDuration)
+        {
+            _sprite.transform.localScale = Vector3.Lerp(_sprite.transform.localScale, targetScale, elapsedTime / _squeezeDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        _sprite.transform.localScale = targetScale;
     }
 }

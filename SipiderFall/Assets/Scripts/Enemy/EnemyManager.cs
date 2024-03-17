@@ -18,6 +18,8 @@ public class EnemyManager : MonoBehaviour
 
     //Instance
     public static EnemyManager Instance;
+    public bool IsTuto = true;
+    public bool IsTutoDie = true;
 
 
 

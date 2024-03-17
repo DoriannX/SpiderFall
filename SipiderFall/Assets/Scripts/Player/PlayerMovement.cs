@@ -1,6 +1,5 @@
 using CandyCoded.HapticFeedback;
 using Cinemachine;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     CinemachineImpulseSource _impulseSource;
     PlayerAttack _playerAttack;
     [SerializeField] Transform _tutoBlock;
+    PlayerFeedback _feedBack;
 
     public bool CanMove = false;
 
@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
         _impulseSource = GetComponent<CinemachineImpulseSource>();
         _rb = GetComponentInChildren<Rigidbody2D>();
         _transform = transform;
+        _feedBack = GetComponentInChildren<PlayerFeedback>();
     }
 
     private void Start()
@@ -115,18 +116,18 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        if (context.started)
-        {
+        if(context.started)
             Shot();
-        }
     }
 
     public void Jump(float force)
     {
+        StartCoroutine(_feedBack.Squeeze());
+        SFXManager.Instance.PlayJumpSFX();
         if (_rb.velocity.y < 0)
             _rb.velocity = new Vector3(_rb.velocity.x, 0);
         if (_rb.velocity.y <= _maxVelocity)
-            _rb.AddForce(Vector3.up * force);
+            _rb.AddForce(Vector3.up * force * Time.deltaTime*10);
     }
 
     public void JumpDebug(InputAction.CallbackContext context)
@@ -135,5 +136,10 @@ public class PlayerMovement : MonoBehaviour
         {
             Shot();
         }
+    }
+
+    public void ClickTest()
+    {
+        print("click test successful");
     }
 }

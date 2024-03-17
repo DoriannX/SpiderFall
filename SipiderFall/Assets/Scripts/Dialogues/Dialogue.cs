@@ -58,9 +58,8 @@ public class Dialogue : MonoBehaviour
 
     public IEnumerator FinishTuto()
     {
-        print("tuto is about to finish");
         NextLine();
-        yield return new WaitForSecondsRealtime(2);
+        yield return new WaitForSecondsRealtime(5);
         gameObject.SetActive(false);
     }
 }

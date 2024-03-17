@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -30,5 +31,37 @@ public class EnemyFeedback : MonoBehaviour
 
         _sprite.transform.localScale = Vector3.one;
 
+    }
+
+    public IEnumerator Blink(Func<bool> condition)
+    {
+        while (!condition())
+        {
+            yield return StartCoroutine(FadeTo(.1f));
+            yield return StartCoroutine(FadeTo(1f));
+        }
+    }
+
+
+    private IEnumerator FadeTo(float targetOpacity)
+    {
+        Color baseColor = _sprite.color;
+        float startOpacity = _sprite.color.a;
+        float duration = .5f; // Durée de l'animation en secondes
+        float elapsedTime = 0f;
+
+        while (Mathf.Abs(_sprite.color.a - targetOpacity) > 0.01f)
+        {
+            elapsedTime += Time.deltaTime;
+            float newOpacity = Mathf.Lerp(startOpacity, targetOpacity, elapsedTime / duration);
+            _sprite.color = new Color(baseColor.r, baseColor.g, baseColor.b, newOpacity);
+
+            if (elapsedTime >= duration)
+            {
+                _sprite.color = new Color(baseColor.r, baseColor.g, baseColor.b, targetOpacity);
+                break;
+            }
+            yield return null;
+        }
     }
 }

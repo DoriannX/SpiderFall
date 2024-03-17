@@ -7,7 +7,7 @@ public class FinishLevelDetecter : MonoBehaviour
     public static FinishLevelDetecter Instance;
 
     //Unity event
-    public UnityEvent LevelFinished;
+    [HideInInspector] public UnityEvent LevelFinished;
 
     //If the player won
     private bool _won = false;

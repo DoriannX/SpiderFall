@@ -82,7 +82,6 @@ GameObject:
   - component: {fileID: 8870460427516506034}
   - component: {fileID: 2217983408917294627}
   - component: {fileID: 8969711664549178633}
-  - component: {fileID: 2280809714559548728}
   - component: {fileID: 2954771850282845357}
   m_Layer: 3
   m_Name: Player
@@ -133,6 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 10
+  _damageImpulsionForce: 15
 --- !u!114 &8870460427516506034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _obstacleDetecter: {fileID: 4982934962625020868}
   _radius: 1
-  _playerDamage: 10
+  _playerDamage: 2
   ShotRange: 5
   _ray: {fileID: -2442296370023614684, guid: 35119bb1fc851c6438610b3cba44a711, type: 3}
 --- !u!114 &2217983408917294627
@@ -165,7 +165,9 @@ MonoBehaviour:
   _tiltForce: 1
   _maxVelocity: 10
   JumpForce: 50
-  JumpMulti: 5
+  JumpMulti: 75
+  _tutoBlock: {fileID: 0}
+  CanMove: 0
 --- !u!50 &8969711664549178633
 Rigidbody2D:
   serializedVersion: 4
@@ -193,92 +195,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2280809714559548728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2566245103696713572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: c52313f67b9bddb47ac47668aa58f4b0, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 533fdd52-b48a-440d-b61e-24d15bd37df0
-    m_ActionName: PlayerInput/Gyro-direction
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 049e35e4-dff8-4247-a559-c32850d4f3c8
-    m_ActionName: PlayerInput/space[/Keyboard/space]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2217983408917294627}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: Move
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 019f7aca-50a3-43e5-82e7-c63370d1b8f0
-    m_ActionName: PlayerInput/Click
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2217983408917294627}
-        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
-        m_MethodName: MoveDebug
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: ba3eae34-e151-45af-8cc7-8c7a82d03d21
-    m_ActionName: PlayerInput/DebugMove[/Keyboard/a,/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2217983408917294627}
-        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
-        m_MethodName: JumpDebug
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 67ca4198-3e9f-466f-b1e2-c1c211f12f68
-    m_ActionName: PlayerInput/DebugJump[/Keyboard/space]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: PlayerInput
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &2954771850282845357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,3 +438,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _distortionSize: 5
+  _squeezeDuration: 0.1
+  _horizontalSqueezeScale: {x: 2, y: 0.8, z: 1}
+  _verticalSqueezeScale: {x: 0.8, y: 3, z: 1}

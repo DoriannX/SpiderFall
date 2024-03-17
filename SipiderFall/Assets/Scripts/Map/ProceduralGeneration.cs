@@ -6,7 +6,6 @@ public class ProceduralGeneration : MonoBehaviour
 
     //Components
     [SerializeField] GameObject _blocPrefab;
-    [SerializeField] GameObject _player;
     [SerializeField] float _mapSize;
     Transform _transform;
     Transform _playerTransform;
@@ -23,23 +22,20 @@ public class ProceduralGeneration : MonoBehaviour
     {
         if(Instance == null)
             Instance = this;
-        _transform = transform; 
-        if (_player)
-            _playerTransform = _player.transform;
-        else
-            Debug.LogError("You forgot to put the player in the serialize field in ProceduralGeneration script");
+        _transform = transform;
 
     }
     private void Start()
     {
 
-        CreateWalls();
 
+        _playerTransform = Player.Instance.gameObject.transform;
         _seed = Random.Range(-100000, 100000);
 
         GenerationMap();
 
         EnemyManager.Instance.SpawnEnemies();
+        CreateWalls();
     }
 
     public float GetMapSize()
@@ -69,33 +65,28 @@ public class ProceduralGeneration : MonoBehaviour
 
     public void GenerationMap()
     {
-        if (_player)
+        if (_blocPrefab)
         {
-            if (_blocPrefab)
+            for (int y = (int)_playerTransform.position.y - (int)(Tools.GetScreenSize().y/2); y > -_mapSize - (int)(Tools.GetScreenSize().y/2); y--)
             {
-                for (int y = (int)_playerTransform.position.y - (int)(Tools.GetScreenSize().y/2); y > -_mapSize - (int)(Tools.GetScreenSize().y/2); y--)
+                for (int x = 0; x < Camera.main.orthographicSize; x++)
                 {
-                    for (int x = 0; x < Camera.main.orthographicSize; x++)
+                    if (Mathf.PerlinNoise(x / 10f + _seed, y / 10f + _seed) >= .65f)
                     {
-                        if (Mathf.PerlinNoise(x / 10f + _seed, y / 10f + _seed) >= .65f)
-                        {
-                            WallManager.Instance.AddMapBlocs(Instantiate(_blocPrefab, new Vector3(x - Tools.GetScreenSize().x / 2, y), Quaternion.identity, _transform));
-                        }
+                        WallManager.Instance.AddMapBlocs(Instantiate(_blocPrefab, new Vector3(x - Tools.GetScreenSize().x / 2, y), Quaternion.identity, _transform));
                     }
                 }
-                if (_finishLineTransform)
-                {
-                    _finishLineTransform.localScale = new Vector3(Tools.GetScreenSize().x, _finishLineTransform.localScale.y);
-                    _finishLineTransform.position = new Vector3(0, -_mapSize - (int)(Tools.GetScreenSize().y / 2));
-                }
-                else
-                    Debug.LogError("no finish line transform in ProceduralGeneration");
+            }
+            if (_finishLineTransform)
+            {
+                _finishLineTransform.localScale = new Vector3(Tools.GetScreenSize().x, _finishLineTransform.localScale.y);
+                _finishLineTransform.position = new Vector3(0, -_mapSize - (int)(Tools.GetScreenSize().y / 2));
             }
             else
-                Debug.LogError("You forgot to put the tile in the serialize field in ProceduralGeneration script");
+                Debug.LogError("no finish line transform in ProceduralGeneration");
         }
         else
-            Debug.LogError("You forgot to put the player in the serialize field in ProceduralGeneration script");
+            Debug.LogError("You forgot to put the tile in the serialize field in ProceduralGeneration script");
 
     }
 

@@ -9,6 +9,8 @@ public class CollectibleEnemy : MonoBehaviour
     Transform _transform;
     Collider2D _collider;
     [SerializeField] LineController _rope;
+    EnemyFeedback _enemyFeedback;
+    SpriteRenderer _sprite;
 
     //Gathering rope
     bool _gathered = false;
@@ -23,6 +25,8 @@ public class CollectibleEnemy : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _transform = transform;
         _collider = GetComponentInChildren<Collider2D>();
+        _enemyFeedback = GetComponentInChildren<EnemyFeedback>();
+        _sprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Start()
@@ -30,16 +34,23 @@ public class CollectibleEnemy : MonoBehaviour
         _playerTransform = Player.Instance.gameObject.transform;
     }
 
+    private void OnEnable()
+    {
+        StartCoroutine(_enemyFeedback.Blink(() => _gathered));
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(!_gathered && collision.gameObject.transform.parent.gameObject == Player.Instance.gameObject)
         {
             if(_isTuto){
                 Dialogue.Instance.NextLine();
+                PlayerMovement.Instance.CanMove = true;
                 _isTuto = false;
             }
             _collider.isTrigger = false;
-            ConfigureRigidbody(_rb, false, _notTouchingDeadEnemies, _enemyMass, 10);
+            ConfigureRigidbody(_rb, false, _notTouchingDeadEnemies, _enemyMass, -10);
             _gathered=true;
 
             if(_playerTransform.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
@@ -56,6 +67,8 @@ public class CollectibleEnemy : MonoBehaviour
             if(_playerTransform.gameObject.TryGetComponent<GatheredEnemyCounter>(out GatheredEnemyCounter gatheredEnemyCounter)){
                 gatheredEnemyCounter.AddGatheredEnemy();
             }
+            Destroy(_enemyFeedback);
+            _sprite.color = Color.gray;
         }
     }
 
