@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 10
-  _damageImpulsionForce: 15
+  _damageImpulsionForce: 250
 --- !u!114 &8870460427516506034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,7 +165,7 @@ MonoBehaviour:
   _tiltForce: 1
   _maxVelocity: 10
   JumpForce: 50
-  JumpMulti: 75
+  JumpMulti: 5
   _tutoBlock: {fileID: 0}
   CanMove: 0
 --- !u!50 &8969711664549178633
@@ -191,7 +191,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4

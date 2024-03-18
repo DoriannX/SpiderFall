@@ -127,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
         if (_rb.velocity.y < 0)
             _rb.velocity = new Vector3(_rb.velocity.x, 0);
         if (_rb.velocity.y <= _maxVelocity)
-            _rb.AddForce(Vector3.up * force * Time.deltaTime*10);
+            _rb.AddForce(Vector3.up * force);
     }
 
     public void JumpDebug(InputAction.CallbackContext context)

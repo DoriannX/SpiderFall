@@ -45,9 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bb930c77ef5f2a4c8deacfc344f70fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxEnemyAmount: 10
+  _maxEnemyAmount: 25
   _enemy: {fileID: 1031693834651078201, guid: 52d632772aa7cd14e989e68fc3a10e91, type: 3}
   _iterMax: 1000
+  IsTuto: 1
+  IsTutoDie: 1
 --- !u!114 &255995950091781654
 MonoBehaviour:
   m_ObjectHideFlags: 0

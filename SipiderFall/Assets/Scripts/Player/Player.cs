@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
         {
             if(child.TryGetComponent<PlayerFeedback>(out PlayerFeedback playerFeedback))
             {
-                _rb.AddForce(Vector3.up * _damageImpulsionForce * Time.deltaTime * 1000);
+                _rb.AddForce(Vector3.up * _damageImpulsionForce);
                 StartCoroutine(playerFeedback.Feedback());
                 if (_impulseSource)
                     _impulseSource.GenerateImpulse(10);
