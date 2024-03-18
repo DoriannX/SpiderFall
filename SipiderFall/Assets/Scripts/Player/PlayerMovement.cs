@@ -47,9 +47,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (CanMove && (Mathf.Abs(Input.acceleration.x) > 0))
-        {
-            _velocityX = Input.acceleration.x * _tiltForce;
+        if(CanMove){
+            float accelerationX = Input.acceleration.x;
+            if (Mathf.Abs(accelerationX) > 0)
+            {
+                float movement = accelerationX * _tiltForce;
+                _rb.velocity = new Vector3(movement, _rb.velocity.y);
+            }
         }
     }
 
