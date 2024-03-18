@@ -1,5 +1,6 @@
 using CandyCoded.HapticFeedback;
 using Cinemachine;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,12 @@ public class PlayerMovement : MonoBehaviour
     //Movement
     [SerializeField] float _tiltForce = 1;
     [SerializeField] float _maxVelocity = 1;
+    [SerializeField] float _maxFallSpeed = 10;
+    [SerializeField] float _fallAcceleration = 1;
+    [SerializeField] float _groundStopFallTime;
+    [SerializeField] float _airStopFallTime;
+    float accelerationX;
+    bool _jumping = false;
     public float JumpForce = 1;
     public int JumpMulti = 1;
     float _velocityX;
@@ -18,7 +25,8 @@ public class PlayerMovement : MonoBehaviour
     CinemachineImpulseSource _impulseSource;
     PlayerAttack _playerAttack;
     [SerializeField] Transform _tutoBlock;
-    PlayerFeedback _feedBack;
+    PlayerFeedback _feedBack; 
+    Coroutine stopFallCoroutine;
 
     public bool CanMove = false;
 
@@ -45,32 +53,47 @@ public class PlayerMovement : MonoBehaviour
         _groundRange += _transform.localScale.x / 2;
     }
 
+    IEnumerator StopFall(float time)
+    {
+        _jumping = true;
+        yield return new WaitForSeconds(time);
+        _jumping = false;
+    }
+    public void StartStopFall(float time)
+    {
+        if (stopFallCoroutine != null)
+        {
+            StopCoroutine(stopFallCoroutine);
+        }
+        stopFallCoroutine = StartCoroutine(StopFall(time));
+    }
+
     private void Update()
     {
-        if(CanMove){
-            float accelerationX = Input.acceleration.x;
-            if (Mathf.Abs(accelerationX) > 0)
-            {
-                float movement = accelerationX * _tiltForce;
-                _rb.velocity = new Vector3(movement, _rb.velocity.y);
-            }
-        }
+        accelerationX = Input.acceleration.x;
     }
-
     private void FixedUpdate()
     {
-        if (Mathf.Abs(_rb.velocity.x) < _maxVelocity || Mathf.Sign(_velocityX) != Mathf.Sign(_rb.velocity.x))
+        if (CanMove)
         {
-            _rb.AddForce(new Vector3(_velocityX * Time.fixedDeltaTime * 1000, 0));
+            float movement = _velocityX * Time.fixedDeltaTime * 500;
+            _rb.velocity = new Vector3(movement, _rb.velocity.y);
+            if (Mathf.Abs(accelerationX) > 0)
+            {
+                movement = accelerationX * _tiltForce * Time.fixedDeltaTime * 100;
+                _rb.velocity = new Vector3(movement, _rb.velocity.y);
+            }
+            if (!_jumping && !Tools.IsGrounded(gameObject, _groundRange))
+            {
+                if ( Mathf.Abs(_rb.velocity.y) < _maxFallSpeed)
+                {
+                    _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - _fallAcceleration * Time.fixedDeltaTime);
+                }
+            }
         }
-        else
-        {
-            _rb.velocity = new Vector2(Mathf.Sign(_rb.velocity.x) * _maxVelocity, _rb.velocity.y);
-        }
+
 
     }
-
-    
 
     public void MoveDebug(InputAction.CallbackContext ctx)
     {
@@ -80,11 +103,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Shot()
     {
+        
         HapticFeedback.LightFeedback();
         bool grounded = Tools.IsGrounded(gameObject, _groundRange);
 
         if (grounded)
         {
+            StartStopFall(_groundStopFallTime);
             if (_impulseSource)
                 _impulseSource.GenerateImpulse(new Vector3(0, .5f));
             else
@@ -92,7 +117,10 @@ public class PlayerMovement : MonoBehaviour
             Jump(JumpForce * JumpMulti);
         }
         else
-            Jump(JumpForce);
+        {
+            Jump(0);
+            StartStopFall(_airStopFallTime);
+        }
 
 
         if (!grounded)
@@ -115,10 +143,8 @@ public class PlayerMovement : MonoBehaviour
     {
         StartCoroutine(_feedBack.Squeeze());
         SFXManager.Instance.PlayJumpSFX();
-        if (_rb.velocity.y < 0)
-            _rb.velocity = new Vector3(_rb.velocity.x, 0);
-        if (_rb.velocity.y <= _maxVelocity)
-            _rb.AddForce(Vector3.up * force);
+        _rb.velocity = new Vector3(_rb.velocity.x, 0);
+        _rb.AddForce(Vector3.up * force);
     }
 
     public void JumpDebug(InputAction.CallbackContext context)

@@ -40,7 +40,7 @@ public class WallManager : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        WallFollowPlayer();
+        //WallFollowPlayer();
     }
 
     private void WallFollowPlayer()
