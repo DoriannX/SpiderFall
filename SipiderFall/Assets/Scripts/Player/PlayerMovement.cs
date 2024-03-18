@@ -25,8 +25,6 @@ public class PlayerMovement : MonoBehaviour
     //ground
     float _groundRange = .1f;
 
-    bool _isTuto = true;
-
     public static PlayerMovement Instance;
     
 
@@ -65,17 +63,6 @@ public class PlayerMovement : MonoBehaviour
         {
             _rb.velocity = new Vector2(Mathf.Sign(_rb.velocity.x) * _maxVelocity, _rb.velocity.y);
         }
-        if (_tutoBlock)
-        {
-            if (_isTuto && _transform.position.y < _tutoBlock.position.y)
-            {
-                _isTuto = false;
-                StartCoroutine(Dialogue.Instance.FinishTuto());
-
-            }
-        }
-        else
-            Debug.LogError("no tutoblock in Player movement");
 
     }
 

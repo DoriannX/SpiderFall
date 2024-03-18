@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyManager : MonoBehaviour
 {
 
     //Enemy
     private List<GameObject> _enemyList = new List<GameObject>();
-    int _enemyAmount;
+    public int EnemyAmount;
     [SerializeField] int _maxEnemyAmount;
 
     //Components
@@ -20,6 +21,8 @@ public class EnemyManager : MonoBehaviour
     public static EnemyManager Instance;
     public bool IsTuto = true;
     public bool IsTutoDie = true;
+
+    public UnityEvent EnemySpawned;
 
 
 
@@ -35,7 +38,7 @@ public class EnemyManager : MonoBehaviour
         if (_enemy)
         {
             int i = 0;
-            while (_enemyAmount < _maxEnemyAmount)
+            while (EnemyAmount < _maxEnemyAmount)
             {
 
                 bool spawn = true;
@@ -52,7 +55,7 @@ public class EnemyManager : MonoBehaviour
                 if (spawn)
                 {
                     _enemyList.Add(Instantiate(_enemy, randomPos, Quaternion.identity, _transform));
-                    _enemyAmount++;
+                    EnemyAmount++;
                 }
                 i++;
                 if(i >= _iterMax)
@@ -60,6 +63,7 @@ public class EnemyManager : MonoBehaviour
                     break;
                 }
             }
+            EnemySpawned.Invoke();
         }
         else
             Debug.LogError("enemy is not in serialize field");

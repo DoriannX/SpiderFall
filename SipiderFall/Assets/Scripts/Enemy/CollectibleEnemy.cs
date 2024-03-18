@@ -18,7 +18,7 @@ public class CollectibleEnemy : MonoBehaviour
     [SerializeField] float _enemyMass;
     [SerializeField] LayerMask _notTouchingDeadEnemies;
 
-    bool _isTuto = true;
+    plusOneFeedback _plusOneFeedback;
 
     private void Awake()
     {
@@ -32,6 +32,7 @@ public class CollectibleEnemy : MonoBehaviour
     private void Start()
     {
         _playerTransform = Player.Instance.gameObject.transform;
+        _plusOneFeedback = GetComponent<plusOneFeedback>();
     }
 
     private void OnEnable()
@@ -44,11 +45,11 @@ public class CollectibleEnemy : MonoBehaviour
     {
         if(!_gathered && collision.gameObject.transform.parent.gameObject == Player.Instance.gameObject)
         {
-            if(_isTuto){
-                Dialogue.Instance.NextLine();
-                PlayerMovement.Instance.CanMove = true;
-                _isTuto = false;
-            }
+            if (_plusOneFeedback)
+                _plusOneFeedback.ShowPlusOne();
+            else
+                Debug.LogError("No plus one feedback");
+            TutoManager.Instance.ToggleTiltPhoneTuto(true);
             _collider.isTrigger = false;
             ConfigureRigidbody(_rb, false, _notTouchingDeadEnemies, _enemyMass, -10);
             _gathered=true;

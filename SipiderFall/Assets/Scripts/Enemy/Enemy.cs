@@ -17,8 +17,6 @@ public class Enemy : MonoBehaviour
     EnemyMovement _enemyMovement;
     EnemyAttack _enemyAttack;
 
-    bool _isTuto = true;
-
 
 
     private void Awake()
@@ -41,11 +39,6 @@ public class Enemy : MonoBehaviour
     {
         _health -= damage;
         StartCoroutine(CheckLife());
-        if (EnemyManager.Instance.IsTuto)
-        {
-            Dialogue.Instance.NextLine();
-            EnemyManager.Instance.IsTuto = false;
-        }
         
     }
 
@@ -61,10 +54,7 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
-        if(EnemyManager.Instance.IsTutoDie){
-            Dialogue.Instance.NextLine();
-            EnemyManager.Instance.IsTutoDie = false;
-        }
+        TutoManager.Instance.ToggleArrowTuto(true);
         _impulseSource.GenerateImpulse(new Vector3(0, 1));
         Handheld.Vibrate();
         _collectibleEnemy.enabled = true;
