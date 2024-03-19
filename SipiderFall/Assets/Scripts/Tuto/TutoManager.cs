@@ -28,9 +28,9 @@ public class TutoManager : MonoBehaviour
 
         while (elapsed < duration)
         {
-            elapsed += Time.unscaledDeltaTime * .9f;
+            elapsed += Time.unscaledDeltaTime * .32f;
             Time.timeScale = Mathf.Lerp(start, targetTimeScale, elapsed / duration);
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
 
         Time.timeScale = targetTimeScale;
