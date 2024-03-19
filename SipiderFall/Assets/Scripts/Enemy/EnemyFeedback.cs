@@ -21,13 +21,13 @@ public class EnemyFeedback : MonoBehaviour
         _actualColor = _enemy.GetHealthRatio() * 45 / 360;
         _sprite.color = Color.HSVToRGB(_actualColor, 1, 1);
         _sprite.transform.localScale += Vector3.one * _distortionSize;
-        yield return new WaitForSeconds(.05f);
+        yield return new WaitForSecondsRealtime(.05f);
 
         _sprite.transform.localScale -= (Vector3.one * _distortionSize) / 2;
-        yield return new WaitForSeconds(.05f);
+        yield return new WaitForSecondsRealtime(.05f);
 
         _sprite.transform.localScale += (Vector3.one * _distortionSize) / 4;
-        yield return new WaitForSeconds(.05f);
+        yield return new WaitForSecondsRealtime(.05f);
 
         _sprite.transform.localScale = Vector3.one;
 

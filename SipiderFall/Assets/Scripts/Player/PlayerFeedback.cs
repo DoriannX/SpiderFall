@@ -13,6 +13,8 @@ public class PlayerFeedback : MonoBehaviour
     [SerializeField] Vector3 _horizontalSqueezeScale = new Vector3(1.2f, 0.8f, 1f);
     [SerializeField] Vector3 _verticalSqueezeScale = new Vector3(0.8f, 1.2f, 1f);
 
+    [SerializeField] GameObject _enemyDetecter;
+
     private Vector3 _originalScale;
 
     private void Awake()
@@ -24,15 +26,15 @@ public class PlayerFeedback : MonoBehaviour
     IEnumerator ChangeSize(SpriteRenderer sprite, float distortionSize)
     {
         Tools.SetLayer(sprite.transform.parent.gameObject, 6);
-
+        _enemyDetecter.layer = 3;
         sprite.transform.localScale += Vector3.one * distortionSize;
-        yield return new WaitForSeconds(.05f);
+        yield return new WaitForSecondsRealtime(.05f);
 
         sprite.transform.localScale -= (Vector3.one * distortionSize) / 2;
-        yield return new WaitForSeconds(.05f);
+        yield return new WaitForSecondsRealtime(.05f);
 
         sprite.transform.localScale += (Vector3.one * distortionSize) / 4;
-        yield return new WaitForSeconds(.05f);
+        yield return new WaitForSecondsRealtime(.05f);
 
         sprite.transform.localScale = Vector3.one;
         
@@ -55,7 +57,7 @@ public class PlayerFeedback : MonoBehaviour
     {
         yield return StartCoroutine(ChangeSize(_sprite, _distortionSize));
         StartCoroutine(ChangeColor(_sprite));
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSecondsRealtime(2f);
         Tools.SetLayer(_sprite.transform.parent.gameObject, 3);
     }
 
@@ -78,7 +80,7 @@ public class PlayerFeedback : MonoBehaviour
         while (elapsedTime < _squeezeDuration)
         {
             _sprite.transform.localScale = Vector3.Lerp(_sprite.transform.localScale, targetScale, elapsedTime / _squeezeDuration);
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.unscaledDeltaTime;
             yield return null;
         }
 

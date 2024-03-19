@@ -1,7 +1,5 @@
 using Cinemachine;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -31,12 +29,6 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _health = _maxHealth;
-    }
-
-    IEnumerator FixInputs()
-    {
-
-        yield return new WaitForSecondsRealtime(1);
     }
     
     public float TakeDamage(float damage)

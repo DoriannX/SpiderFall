@@ -47,8 +47,8 @@ public class ProceduralGeneration : MonoBehaviour
     {
         if (_blocPrefab)
         {
-            _wallsTransform.Add(Instantiate(_blocPrefab, new Vector3(Tools.GetScreenSize().x / 2, -_mapSize/2), Quaternion.identity, _transform).transform);
-            _wallsTransform.Add(Instantiate(_blocPrefab, new Vector3(-Tools.GetScreenSize().x / 2, -_mapSize/2), Quaternion.identity, _transform).transform);
+            _wallsTransform.Add(Instantiate(_blocPrefab, new Vector3((int) Tools.GetScreenSize().x / 2+1, -_mapSize/2), Quaternion.identity, _transform).transform);
+            _wallsTransform.Add(Instantiate(_blocPrefab, new Vector3((int)-Tools.GetScreenSize().x / 2-1, -_mapSize/2), Quaternion.identity, _transform).transform);
         }
         else
             Debug.LogError("You forgot to put the wall in the serialize field in ProceduralGeneration script");
@@ -73,7 +73,7 @@ public class ProceduralGeneration : MonoBehaviour
                 {
                     if (Mathf.PerlinNoise(x / 10f + _seed, y / 10f + _seed) >= .65f)
                     {
-                        WallManager.Instance.AddMapBlocs(Instantiate(_blocPrefab, new Vector3(x - Tools.GetScreenSize().x / 2, y), Quaternion.identity, _transform));
+                        WallManager.Instance.AddMapBlocs(Instantiate(_blocPrefab, new Vector3((int)x - (int)Tools.GetScreenSize().x / 2, y), Quaternion.identity, _transform));
                     }
                 }
             }

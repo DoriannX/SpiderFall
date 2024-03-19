@@ -53,9 +53,9 @@ public class Enemy : MonoBehaviour
 
     }
 
-
     public void Die()
     {
+        TutoManager.Instance.StartGame();
         _enemyFeedback.ResetSprite();
         TutoManager.Instance.ToggleArrowTuto(true);
         _impulseSource.GenerateImpulse(new Vector3(0, 1));

@@ -28,7 +28,7 @@ public class TutoManager : MonoBehaviour
 
         while (elapsed < duration)
         {
-            elapsed += Time.unscaledDeltaTime;
+            elapsed += Time.unscaledDeltaTime * .9f;
             Time.timeScale = Mathf.Lerp(start, targetTimeScale, elapsed / duration);
             yield return null;
         }
