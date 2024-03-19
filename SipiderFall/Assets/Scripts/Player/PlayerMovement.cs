@@ -91,8 +91,6 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-
-
     }
 
     public void MoveDebug(InputAction.CallbackContext ctx)
@@ -135,6 +133,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
+        print("move");
         if(context.started)
             Shot();
     }

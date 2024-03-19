@@ -19,6 +19,11 @@ public class Tools
         Debug.DrawRay(origin, Vector3.down * range, Color.green);
         return grounded;
     }
+    public static bool TryGetComponentInChildren<T>(GameObject parent, out T component)
+    {
+        component = parent.GetComponentInChildren<T>();
+        return component != null;
+    }
 
     public static void SetLayer(GameObject go, int layer)
     {

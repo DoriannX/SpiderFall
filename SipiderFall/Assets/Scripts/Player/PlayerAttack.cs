@@ -48,8 +48,9 @@ public class PlayerAttack : MonoBehaviour
             }
             if (shotHit.transform.parent.TryGetComponent<DestructibleGround>(out DestructibleGround groundShot))
             {
-                groundShot.DestroyGround(_radius);
+                StartCoroutine(groundShot.DestroyGround(_radius));
                 targetPoint.transform.position = groundShot.transform.position;
+                break;
             }
             
         }

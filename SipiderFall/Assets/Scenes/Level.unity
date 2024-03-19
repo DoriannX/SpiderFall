@@ -525,7 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b94cd0fd7e53f046a2f45102e22e8dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActivateTuto: 0
+  ActivateTuto: 1
   _blocTutoTransform: {fileID: 4773832603832236166}
   _tutoMap: {fileID: 9205517118355790710}
   _handTuto: {fileID: 4615670103098441979}
