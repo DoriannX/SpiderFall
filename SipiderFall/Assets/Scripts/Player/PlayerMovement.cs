@@ -8,7 +8,6 @@ public class PlayerMovement : MonoBehaviour
 {
     //Movement
     [SerializeField] float _tiltForce = 1;
-    [SerializeField] float _maxVelocity = 1;
     [SerializeField] float _maxFallSpeed = 10;
     [SerializeField] float _fallAcceleration = 1;
     [SerializeField] float _groundStopFallTime;

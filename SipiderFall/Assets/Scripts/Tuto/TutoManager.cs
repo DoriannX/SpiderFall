@@ -19,6 +19,8 @@ public class TutoManager : MonoBehaviour
     //Instance
     public static TutoManager Instance;
 
+    Coroutine _slowDownTime = null;
+
     IEnumerator SlowDownTime(float targetTimeScale, float duration)
     {
         float start = Time.timeScale;
@@ -58,7 +60,7 @@ public class TutoManager : MonoBehaviour
             _tiltPhoneTuto.SetActive(false);
             _ArrowTuto.SetActive(false);
             PlayerMovement.Instance.CanMove = false;
-            StartCoroutine(SlowDownTime(0, 3));
+            _slowDownTime = StartCoroutine(SlowDownTime(0, 3));
             IsTuto = true;
         }
         else
@@ -75,7 +77,7 @@ public class TutoManager : MonoBehaviour
     {
         if (IsTuto && ActivateTuto)
         {
-            StopAllCoroutines();
+            StopCoroutine(_slowDownTime);
             Time.timeScale = 1;
         }
 

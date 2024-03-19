@@ -7,7 +7,6 @@ public class BlocFeedback : MonoBehaviour
     [SerializeField] private float scaleFactor = 1.5f;
     [SerializeField] private float duration = 2f;
     private SpriteRenderer spriteRenderer;
-    bool isCoroutineRunning = false;
 
     private void Awake()
     {
@@ -16,7 +15,6 @@ public class BlocFeedback : MonoBehaviour
 
     public IEnumerator ScaleAndDestroy()
     {
-        isCoroutineRunning = true;
         Vector3 initialScale = transform.localScale;
 
         float elapsedTime = 0f;
@@ -29,6 +27,5 @@ public class BlocFeedback : MonoBehaviour
         }
 
         Destroy(gameObject.transform.parent.gameObject);
-        isCoroutineRunning = false;
     }
 }
