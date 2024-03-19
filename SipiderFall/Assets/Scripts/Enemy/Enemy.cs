@@ -44,12 +44,12 @@ public class Enemy : MonoBehaviour
 
     IEnumerator CheckLife()
     {
-        yield return StartCoroutine(_enemyFeedback.ChangeSizeRenderer());
-
         if (_health <= 0)
         {
             Die();
         }
+        yield return StartCoroutine(_enemyFeedback.ChangeSizeRenderer());
+
     }
 
     public void Die()
