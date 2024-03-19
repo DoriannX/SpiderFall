@@ -38,13 +38,21 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         _health -= damage;
+        StartCoroutine(CheckLife());
+
+    }
+
+    IEnumerator CheckLife()
+    {
         StartCoroutine(_enemyFeedback.ChangeSizeRenderer());
+        yield return StartCoroutine(_enemyFeedback.ChangeSizeRenderer());
         if (_health <= 0)
         {
             Die();
         }
 
     }
+
 
     public void Die()
     {
