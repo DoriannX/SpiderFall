@@ -12,6 +12,9 @@ public class TutoManager : MonoBehaviour
     [SerializeField] GameObject _tiltPhoneTuto;
     [SerializeField] GameObject _ArrowTuto;
     [HideInInspector] public bool IsTuto;
+    [HideInInspector] public bool SlowTime = false;
+
+    bool _started = false;
 
     //Player
     Transform _playerTransform;
@@ -34,14 +37,10 @@ public class TutoManager : MonoBehaviour
 
     public void Update()
     {
-        if (Player.Instance.transform.position.y > targetPosY)
+        if (SlowTime && Player.Instance.transform.position.y > targetPosY)
         {
             print(Mathf.Abs(Player.Instance.transform.position.y / targetPosY));
             Time.timeScale = Mathf.Lerp(1, 0, Mathf.Abs(Player.Instance.transform.position.y / targetPosY));
-        }
-        else
-        {
-            Time.timeScale = 1;
         }
 
         if (IsTuto && ActivateTuto && _playerTransform.position.y < _blocTutoTransform.position.y)
@@ -67,26 +66,37 @@ public class TutoManager : MonoBehaviour
             _tiltPhoneTuto.SetActive(false);
             _ArrowTuto.SetActive(false);
             StartSlowDownTime((Player.Instance.transform.position + Vector3.down * 5).y);
+            SlowTime = true;
             PlayerMovement.Instance.CanMove = false;
             IsTuto = true;
         }
         else
         {
+            SlowTime = false;
             _tutoMap.SetActive(false);
             _handTuto.SetActive(false);
             _ArrowTuto.SetActive(false);
             _tiltPhoneTuto.SetActive(false);
+            Time.timeScale = 0;
             PlayerMovement.Instance.CanMove = true;
             IsTuto = false;
         }
     }
+
+    public void NextFeedback()
+    {
+        SlowTime = false;
+        Time.timeScale = 1;
+    }
+
     public void StartGame()
     {
-        if (IsTuto && ActivateTuto)
+        if(!ActivateTuto)
         {
+            SlowTime=false;
             Time.timeScale = 1;
+            _started = false;
         }
-
     }
 
     public void ToggleHandTuto(bool state)

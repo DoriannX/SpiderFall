@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     IEnumerator ResetInput()
     {
         _input.enabled = false;
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSecondsRealtime(.5f);
         _input.enabled = true;
     }
     

@@ -24,20 +24,20 @@ public class PlayerMovement : MonoBehaviour
     CinemachineImpulseSource _impulseSource;
     PlayerAttack _playerAttack;
     [SerializeField] Transform _tutoBlock;
-    PlayerFeedback _feedBack; 
+    PlayerFeedback _feedBack;
     Coroutine stopFallCoroutine;
 
-    public bool CanMove = false;
+    public bool CanMove = true;
 
     //ground
     float _groundRange = .1f;
 
     public static PlayerMovement Instance;
-    
+
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
             Instance = this;
 
         _playerAttack = GetComponent<PlayerAttack>();
@@ -82,25 +82,25 @@ public class PlayerMovement : MonoBehaviour
                 movement = accelerationX * _tiltForce * Time.fixedDeltaTime * 100;
                 _rb.velocity = new Vector3(movement, _rb.velocity.y);
             }
-            if (!_jumping && !Tools.IsGrounded(gameObject, _groundRange))
+        }
+        if (!_jumping && !Tools.IsGrounded(gameObject, _groundRange))
+        {
+            if (Mathf.Abs(_rb.velocity.y) < _maxFallSpeed)
             {
-                if ( Mathf.Abs(_rb.velocity.y) < _maxFallSpeed)
-                {
-                    _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - _fallAcceleration * Time.fixedDeltaTime);
-                }
+                _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - _fallAcceleration * Time.fixedDeltaTime);
             }
         }
     }
 
     public void MoveDebug(InputAction.CallbackContext ctx)
     {
-        if(CanMove)
+        if (CanMove)
             _velocityX = ctx.ReadValue<Vector2>().x;
     }
 
     void Shot()
     {
-        
+        print("shot");
         HapticFeedback.LightFeedback();
         bool grounded = Tools.IsGrounded(gameObject, _groundRange);
 
@@ -133,7 +133,7 @@ public class PlayerMovement : MonoBehaviour
     public void Move(InputAction.CallbackContext context)
     {
         print("move");
-        if(context.started)
+        if (context.started)
             Shot();
     }
 
@@ -151,10 +151,5 @@ public class PlayerMovement : MonoBehaviour
         {
             Shot();
         }
-    }
-
-    public void ClickTest()
-    {
-        print("click test successful");
     }
 }
