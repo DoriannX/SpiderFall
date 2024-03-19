@@ -38,22 +38,17 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         _health -= damage;
-        StartCoroutine(CheckLife());
-        
-    }
-
-    IEnumerator CheckLife()
-    {
+        StartCoroutine(_enemyFeedback.ChangeSizeRenderer());
         if (_health <= 0)
         {
             Die();
         }
-        yield return StartCoroutine(_enemyFeedback.ChangeSizeRenderer());
 
     }
 
     public void Die()
     {
+        _enemyFeedback.ResetSprite();
         TutoManager.Instance.ToggleArrowTuto(true);
         _impulseSource.GenerateImpulse(new Vector3(0, 1));
         Handheld.Vibrate();

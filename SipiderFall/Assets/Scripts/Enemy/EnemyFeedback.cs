@@ -33,6 +33,11 @@ public class EnemyFeedback : MonoBehaviour
 
     }
 
+    public void ResetSprite()
+    {
+        _sprite.transform.localScale = Vector3.one;
+    }
+
     public IEnumerator Blink(Func<bool> condition)
     {
         while (!condition())
