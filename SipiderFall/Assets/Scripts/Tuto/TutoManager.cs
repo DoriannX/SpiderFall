@@ -21,33 +21,41 @@ public class TutoManager : MonoBehaviour
 
     Coroutine _slowDownTime = null;
 
-    IEnumerator SlowDownTime(float targetTimeScale, float duration)
-    {
-        float start = Time.timeScale;
-        float elapsed = 0f;
+    private float start;
+    private float elapsed = 0f;
+    private float targetTimeScale = 1;
+    private float duration;
 
-        while (elapsed < duration)
+    public void StartSlowDownTime(float targetTimeScale, float duration)
+    {
+        this.start = Time.timeScale;
+        this.targetTimeScale = targetTimeScale;
+        this.duration = duration;
+    }
+
+    public void Update()
+    {
+        if (elapsed < duration)
         {
-            elapsed += Time.unscaledDeltaTime * .32f;
+            elapsed += Time.unscaledDeltaTime;
             Time.timeScale = Mathf.Lerp(start, targetTimeScale, elapsed / duration);
-            yield return new WaitForFixedUpdate();
+        }
+        else
+        {
+            Time.timeScale = targetTimeScale;
         }
 
-        Time.timeScale = targetTimeScale;
+        if (IsTuto && ActivateTuto && _playerTransform.position.y < _blocTutoTransform.position.y)
+        {
+            FinishTuto();
+        }
     }
+
 
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
-    }
-
-    private void Update()
-    {
-        if (IsTuto && ActivateTuto && _playerTransform.position.y < _blocTutoTransform.position.y)
-        {
-            FinishTuto();
-        }
     }
 
     private void Start()
@@ -59,8 +67,8 @@ public class TutoManager : MonoBehaviour
             _handTuto.SetActive(true);
             _tiltPhoneTuto.SetActive(false);
             _ArrowTuto.SetActive(false);
+            StartSlowDownTime(0, 8);
             PlayerMovement.Instance.CanMove = false;
-            _slowDownTime = StartCoroutine(SlowDownTime(0, 3));
             IsTuto = true;
         }
         else
@@ -77,7 +85,6 @@ public class TutoManager : MonoBehaviour
     {
         if (IsTuto && ActivateTuto)
         {
-            StopCoroutine(_slowDownTime);
             Time.timeScale = 1;
         }
 
