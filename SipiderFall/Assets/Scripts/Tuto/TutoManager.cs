@@ -23,26 +23,25 @@ public class TutoManager : MonoBehaviour
 
     private float start;
     private float elapsed = 0f;
-    private float targetTimeScale = 1;
+    private float targetPosY = 1;
     private float duration;
 
-    public void StartSlowDownTime(float targetTimeScale, float duration)
+    public void StartSlowDownTime(float targetPosY)
     {
         this.start = Time.timeScale;
-        this.targetTimeScale = targetTimeScale;
-        this.duration = duration;
+        this.targetPosY = targetPosY;
     }
 
     public void Update()
     {
-        if (elapsed < duration)
+        if (Player.Instance.transform.position.y > targetPosY)
         {
-            elapsed += Time.unscaledDeltaTime;
-            Time.timeScale = Mathf.Lerp(start, targetTimeScale, elapsed / duration);
+            print(Mathf.Abs(Player.Instance.transform.position.y / targetPosY));
+            Time.timeScale = Mathf.Lerp(1, 0, Mathf.Abs(Player.Instance.transform.position.y / targetPosY));
         }
         else
         {
-            Time.timeScale = targetTimeScale;
+            Time.timeScale = 1;
         }
 
         if (IsTuto && ActivateTuto && _playerTransform.position.y < _blocTutoTransform.position.y)
@@ -67,7 +66,7 @@ public class TutoManager : MonoBehaviour
             _handTuto.SetActive(true);
             _tiltPhoneTuto.SetActive(false);
             _ArrowTuto.SetActive(false);
-            StartSlowDownTime(0, 8);
+            StartSlowDownTime((Player.Instance.transform.position + Vector3.down * 5).y);
             PlayerMovement.Instance.CanMove = false;
             IsTuto = true;
         }
