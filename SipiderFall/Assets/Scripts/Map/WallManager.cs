@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WallManager : MonoBehaviour
@@ -43,11 +44,12 @@ public class WallManager : MonoBehaviour
         //WallFollowPlayer();
     }
 
-    private void WallFollowPlayer()
+    public void ResetMap()
     {
-        foreach (GameObject wall in _walls)
+        foreach (GameObject bloc in _mapBlocs.ToList())
         {
-            wall.transform.position = new Vector3(wall.transform.position.x, _playerTransform.position.y);
+            Destroy(bloc);
+            _mapBlocs.Remove(bloc);
         }
     }
 }

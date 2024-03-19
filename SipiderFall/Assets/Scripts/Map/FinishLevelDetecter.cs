@@ -10,7 +10,7 @@ public class FinishLevelDetecter : MonoBehaviour
     [HideInInspector] public UnityEvent LevelFinished;
 
     //If the player won
-    private bool _won = false;
+    public bool Won = false;
 
     private void Awake()
     {
@@ -25,18 +25,18 @@ public class FinishLevelDetecter : MonoBehaviour
         {
             if (gatheredEnemyCounter.GetGatheredEnemyAmount() >= 1){
                 print("congrats you won !");
-                _won = true;
+                Won = true;
             }
             else
                 print("Sorry you lose you didn't bring any enemy");
 
-            LevelFinished?.Invoke();
             collision.transform.parent.gameObject.SetActive(false);
+            LevelFinished?.Invoke();
         }
     }
 
     public bool HasWon()
     {
-        return _won;
+        return Won;
     }
 }

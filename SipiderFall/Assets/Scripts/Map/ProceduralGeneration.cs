@@ -6,7 +6,7 @@ public class ProceduralGeneration : MonoBehaviour
 
     //Components
     [SerializeField] GameObject _blocPrefab;
-    [SerializeField] float _mapSize;
+    float _mapSize;
     Transform _transform;
     Transform _playerTransform;
     [SerializeField] Transform _finishLineTransform;
@@ -24,17 +24,17 @@ public class ProceduralGeneration : MonoBehaviour
             Instance = this;
         _transform = transform;
 
+        
+
     }
     private void Start()
     {
-
+        _mapSize = GameManager.Instance.Level.MapSize;
 
         _playerTransform = Player.Instance.gameObject.transform;
         _seed = Random.Range(-100000, 100000);
 
         GenerationMap();
-
-        EnemyManager.Instance.SpawnEnemies();
         CreateWalls();
     }
 
@@ -65,6 +65,7 @@ public class ProceduralGeneration : MonoBehaviour
 
     public void GenerationMap()
     {
+        WallManager.Instance.ResetMap();
         if (_blocPrefab)
         {
             for (int y = (int)_playerTransform.position.y - (int)(Tools.GetScreenSize().y/2); y > -_mapSize - (int)(Tools.GetScreenSize().y/2); y--)
@@ -84,6 +85,7 @@ public class ProceduralGeneration : MonoBehaviour
             }
             else
                 Debug.LogError("no finish line transform in ProceduralGeneration");
+            EnemyManager.Instance.SpawnEnemies();
         }
         else
             Debug.LogError("You forgot to put the tile in the serialize field in ProceduralGeneration script");

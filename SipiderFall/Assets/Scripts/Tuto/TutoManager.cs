@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TutoManager : MonoBehaviour
 {
-    public bool ActivateTuto = false;
+    [HideInInspector] public bool ActivateTuto;
 
     [SerializeField] Transform _blocTutoTransform;
     //tuto
@@ -14,33 +14,23 @@ public class TutoManager : MonoBehaviour
     [HideInInspector] public bool IsTuto;
     [HideInInspector] public bool SlowTime = false;
 
-    bool _started = false;
-
     //Player
     Transform _playerTransform;
 
     //Instance
     public static TutoManager Instance;
-
-    Coroutine _slowDownTime = null;
-
-    private float start;
-    private float elapsed = 0f;
-    private float targetPosY = 1;
-    private float duration;
+    private float _targetPosY;
 
     public void StartSlowDownTime(float targetPosY)
     {
-        this.start = Time.timeScale;
-        this.targetPosY = targetPosY;
+        _targetPosY = targetPosY;
     }
 
     public void Update()
     {
-        if (SlowTime && Player.Instance.transform.position.y > targetPosY)
+        if (SlowTime && Player.Instance.transform.position.y > _targetPosY)
         {
-            print(Mathf.Abs(Player.Instance.transform.position.y / targetPosY));
-            Time.timeScale = Mathf.Lerp(1, 0, Mathf.Abs(Player.Instance.transform.position.y / targetPosY));
+            Time.timeScale = Mathf.Lerp(1, 0, Mathf.Abs(Player.Instance.transform.position.y / _targetPosY));
         }
 
         if (IsTuto && ActivateTuto && _playerTransform.position.y < _blocTutoTransform.position.y)
@@ -52,6 +42,7 @@ public class TutoManager : MonoBehaviour
 
     private void Awake()
     {
+        ActivateTuto = GameManager.Instance.Level.ActiveTuto;
         if (Instance == null)
             Instance = this;
     }
@@ -65,7 +56,7 @@ public class TutoManager : MonoBehaviour
             _handTuto.SetActive(true);
             _tiltPhoneTuto.SetActive(false);
             _ArrowTuto.SetActive(false);
-            StartSlowDownTime((Player.Instance.transform.position + Vector3.down * 5).y);
+            StartSlowDownTime((Player.Instance.transform.position + Vector3.down * 3).y);
             SlowTime = true;
             PlayerMovement.Instance.CanMove = false;
             IsTuto = true;
@@ -95,7 +86,6 @@ public class TutoManager : MonoBehaviour
         {
             SlowTime=false;
             Time.timeScale = 1;
-            _started = false;
         }
     }
 
@@ -135,6 +125,20 @@ public class TutoManager : MonoBehaviour
             _handTuto.SetActive(false);
             _ArrowTuto.SetActive(false);
             _tiltPhoneTuto.SetActive(false);
+            PlayerMovement.Instance.CanMove = true;
+            IsTuto = false;
+        }
+    }
+
+    public void ToggleTuto(bool state)
+    {
+        if (IsTuto)
+        {
+            ActivateTuto = state;
+            _handTuto.SetActive(false);
+            _ArrowTuto.SetActive(false);
+            _tiltPhoneTuto.SetActive(false);
+            _tutoMap.SetActive(false);
             PlayerMovement.Instance.CanMove = true;
             IsTuto = false;
         }

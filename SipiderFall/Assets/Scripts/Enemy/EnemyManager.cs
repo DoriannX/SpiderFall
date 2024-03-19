@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,7 +9,7 @@ public class EnemyManager : MonoBehaviour
     //Enemy
     private List<GameObject> _enemyList = new List<GameObject>();
     public int EnemyAmount;
-    [SerializeField] int _maxEnemyAmount;
+    int _maxEnemyAmount;
 
     //Components
     Transform _transform;
@@ -32,8 +33,24 @@ public class EnemyManager : MonoBehaviour
         if(Instance == null)
             Instance = this;
     }
+
+    private void Start()
+    {
+        _maxEnemyAmount = GameManager.Instance.Level.EnemyAmount;
+    }
+
+    public void ResetEnemies()
+    {
+        foreach(GameObject enemy in _enemyList.ToList())
+        {
+            Destroy(enemy);
+            _enemyList.Remove(enemy);
+        }
+    }
+
     public void SpawnEnemies()
     {
+        ResetEnemies();
         List<GameObject> walls = WallManager.Instance.GetBlocsMap();
         if (_enemy)
         {
