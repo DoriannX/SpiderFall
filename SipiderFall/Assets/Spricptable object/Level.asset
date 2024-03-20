@@ -15,3 +15,5 @@ MonoBehaviour:
   ActiveTuto: 0
   EnemyAmount: 10
   MapSize: 75
+  ActualLevel: 1
+  HasToReset: 0

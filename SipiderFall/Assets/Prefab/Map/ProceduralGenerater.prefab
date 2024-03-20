@@ -93,6 +93,7 @@ MonoBehaviour:
   LevelFinished:
     m_PersistentCalls:
       m_Calls: []
+  Won: 0
 --- !u!1 &7463759876320507960
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,7 +141,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _blocPrefab: {fileID: 2641298290027676157, guid: 9022a1939ef74a044b2a385b9e489245, type: 3}
-  _mapSize: 500
   _finishLineTransform: {fileID: 6654823520902291114}
 --- !u!114 &3547284053622190266
 MonoBehaviour:

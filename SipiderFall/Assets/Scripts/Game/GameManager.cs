@@ -1,13 +1,15 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using static UnityEditor.PlayerSettings;
 
 public class GameManager : MonoBehaviour
 {
     PlayerInput _input;
-    GameObject _player;
     public LevelManager Level;
+    [SerializeField] private TextMeshProUGUI _actualLevelText;
 
     public static GameManager Instance;
 
@@ -18,7 +20,6 @@ public class GameManager : MonoBehaviour
         if(Instance == null)
             Instance = this;
         _input = GetComponent<PlayerInput>();
-        _player = Player.Instance.gameObject;
 
         if (Level.HasToReset)
             Level.Reset();
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(ResetInput());
         FinishLevelDetecter.Instance.LevelFinished.AddListener(ChoseLevel);
+        RefreshLevel();
     }
 
     IEnumerator ResetInput()
@@ -47,9 +49,7 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        Level.ActiveTuto = false;
-        Level.EnemyAmount += 5;
-        Level.MapSize += 20;
+        Level.NextLevel();
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -57,5 +57,10 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
-    
+
+    public void RefreshLevel()
+    {
+        _actualLevelText.text = "Level : " + Level.ActualLevel;
+    }
+
 }

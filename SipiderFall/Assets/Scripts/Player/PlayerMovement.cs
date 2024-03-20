@@ -100,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Shot()
     {
+        WinLoseMenu.Instance.OpenMenu();
         print("shot");
         HapticFeedback.LightFeedback();
         bool grounded = Tools.IsGrounded(gameObject, _groundRange);

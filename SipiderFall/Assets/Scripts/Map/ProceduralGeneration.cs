@@ -36,6 +36,8 @@ public class ProceduralGeneration : MonoBehaviour
 
         GenerationMap();
         CreateWalls();
+
+        EnemyManager.Instance.SpawnEnemies();
     }
 
     public float GetMapSize()
@@ -85,7 +87,6 @@ public class ProceduralGeneration : MonoBehaviour
             }
             else
                 Debug.LogError("no finish line transform in ProceduralGeneration");
-            EnemyManager.Instance.SpawnEnemies();
         }
         else
             Debug.LogError("You forgot to put the tile in the serialize field in ProceduralGeneration script");

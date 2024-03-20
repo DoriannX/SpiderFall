@@ -36,7 +36,6 @@ public class EnemyManager : MonoBehaviour
 
     private void Start()
     {
-        _maxEnemyAmount = GameManager.Instance.Level.EnemyAmount;
     }
 
     public void ResetEnemies()
@@ -50,7 +49,7 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
-        ResetEnemies();
+        _maxEnemyAmount = GameManager.Instance.Level.EnemyAmount;
         List<GameObject> walls = WallManager.Instance.GetBlocsMap();
         if (_enemy)
         {

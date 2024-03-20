@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Level: {fileID: 11400000, guid: d7392310d528bf049b3000dff6ddecfe, type: 2}
+  _actualLevelText: {fileID: 0}
 --- !u!114 &4969594791481412710
 MonoBehaviour:
   m_ObjectHideFlags: 0
