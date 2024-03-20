@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using static UnityEditor.PlayerSettings;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,7 +27,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         StartCoroutine(ResetInput());
-        FinishLevelDetecter.Instance.LevelFinished.AddListener(ChoseLevel);
         RefreshLevel();
     }
 
@@ -39,18 +37,9 @@ public class GameManager : MonoBehaviour
         _input.enabled = true;
     }
 
-    private void ChoseLevel()
-    {
-        if (FinishLevelDetecter.Instance.Won)
-            NextLevel();
-        else
-            RestartLevel();
-    }
-
     public void NextLevel()
     {
         Level.NextLevel();
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void RestartLevel()
@@ -60,7 +49,7 @@ public class GameManager : MonoBehaviour
 
     public void RefreshLevel()
     {
-        _actualLevelText.text = "Level : " + Level.ActualLevel;
+        _actualLevelText.text = "Level : " + Level.GetActualLevel();
     }
 
 }

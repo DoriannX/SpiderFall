@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 331796ae42736e04b85cad6b6eff46d5, type: 3}
   m_Name: Level
   m_EditorClassIdentifier: 
-  ActiveTuto: 0
-  EnemyAmount: 10
-  MapSize: 75
-  ActualLevel: 1
-  HasToReset: 0
+  ActiveTuto: 1
+  EnemyAmount: 45
+  MapSize: 215
+  HasToReset: 1

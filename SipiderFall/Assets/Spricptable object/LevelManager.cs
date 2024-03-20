@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(fileName = "LevelManager", menuName = "ScriptableObjects/LevelManager", order = 1)]
 public class LevelManager : ScriptableObject
@@ -6,7 +7,7 @@ public class LevelManager : ScriptableObject
     public bool ActiveTuto;
     public int EnemyAmount;
     public int MapSize;
-    [HideInInspector] public int ActualLevel = 1;
+    int ActualLevel = 1;
 
     public bool HasToReset;
 
@@ -23,6 +24,13 @@ public class LevelManager : ScriptableObject
         ActiveTuto = false;
         EnemyAmount += 5;
         MapSize += 20;
-        ActualLevel += 1;
+        ActualLevel ++;
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        Debug.Log("next level");
+    }
+
+    public int GetActualLevel()
+    {
+        return ActualLevel;
     }
 }
