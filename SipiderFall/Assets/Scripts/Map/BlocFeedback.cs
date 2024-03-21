@@ -25,7 +25,7 @@ public class BlocFeedback : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
+        SFXManager.Instance.PlayDestroyBloc(gameObject);
         Destroy(gameObject.transform.parent.gameObject);
     }
 }

@@ -69,6 +69,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 10
+  _playerDetecter: {fileID: 0}
   CurrentEnemyType: 1
 --- !u!114 &3626697911303473293
 MonoBehaviour:
@@ -83,7 +84,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPlayerDetecter: {fileID: 691267299383770123}
-  EnemyDamage: 10
+  EnemyDamage: 2
   _rangeShotFrequency: 1
   _shootSpeed: 5
   _projectile: {fileID: 4780551354704690128, guid: 05e995a74d2f41042a48e8aa93060986, type: 3}
@@ -117,6 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxVelocity: 5
+  _longRangePlayerDetecter: {fileID: 0}
 --- !u!114 &5515250461997301280
 MonoBehaviour:
   m_ObjectHideFlags: 0

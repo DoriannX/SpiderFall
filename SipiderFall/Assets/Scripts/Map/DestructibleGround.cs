@@ -23,6 +23,7 @@ public class DestructibleGround : MonoBehaviour
                 GameObject parent = blocAround.transform.parent.gameObject;
                 if (Tools.TryGetComponentInChildren<BlocFeedback>(parent, out BlocFeedback feedback) && parent.TryGetComponent<DestructibleGround>(out DestructibleGround ground))
                 {
+
                     StartCoroutine(feedback.ScaleAndDestroy());
                 }
             }

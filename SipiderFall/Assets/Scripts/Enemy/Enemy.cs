@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     public enum EnemyType {LongRangeEnemy, NormalEnemy, FlyingEnemy };
     //stats
     [SerializeField] float _maxHealth = 10;
+    [SerializeField] Collider2D _playerDetecter;
     float _health;
 
     //components    
@@ -18,6 +19,7 @@ public class Enemy : MonoBehaviour
     EnemyMovement _enemyMovement;
     EnemyAttack _enemyAttack;
     public EnemyType CurrentEnemyType;
+    SpriteRenderer _sprite;
 
 
 
@@ -30,6 +32,7 @@ public class Enemy : MonoBehaviour
         _enemyFeedback = GetComponentInChildren<EnemyFeedback>();
         _enemyMovement = GetComponent<EnemyMovement>();
         _enemyAttack = GetComponent<EnemyAttack>();
+        _sprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Start()
@@ -57,13 +60,15 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
-
+        _collectibleEnemy.enabled = true;
+        _sprite.transform.localScale = Vector3.one;
+        Tools.SetLayer(gameObject, 0);
+        Destroy(_playerDetecter);
         TutoManager.Instance.NextFeedback();
         _enemyFeedback.ResetSprite();
         TutoManager.Instance.ToggleArrowTuto(true);
         _impulseSource.GenerateImpulse(new Vector3(0, 1));
         Handheld.Vibrate();
-        _collectibleEnemy.enabled = true;
         _collider.isTrigger = true;
 
         _rb.velocity = Vector2.zero;

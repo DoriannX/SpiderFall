@@ -9,11 +9,17 @@ public class EnemyFeedback : MonoBehaviour
     Enemy _enemy;
     SpriteRenderer _sprite;
     float _actualColor = 45 / 360;
+    private Vector3 _originalScale;
 
     private void Awake()
     {
         _enemy = GetComponentInParent<Enemy>();
         _sprite = GetComponent<SpriteRenderer>();
+    }
+
+    private void Start()
+    {
+        _originalScale = _sprite.transform.localScale;
     }
 
     public IEnumerator ChangeSizeRenderer()
@@ -68,5 +74,31 @@ public class EnemyFeedback : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    public IEnumerator Squeeze()
+    {
+        // Squeeze horizontally
+        yield return StartCoroutine(SqueezeTo(new Vector3(2, 0.8f, 1f)));
+
+        // Then squeeze vertically
+        yield return StartCoroutine(SqueezeTo(new Vector3(0.8f, 3, 1f)));
+
+        // Then return to original scale
+        yield return StartCoroutine(SqueezeTo(_originalScale));
+    }
+
+    private IEnumerator SqueezeTo(Vector3 targetScale)
+    {
+        float elapsedTime = 0;
+
+        while (elapsedTime < 0.1f)
+        {
+            _sprite.transform.localScale = Vector3.Lerp(_sprite.transform.localScale, targetScale, elapsedTime / .1f);
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        _sprite.transform.localScale = targetScale;
     }
 }

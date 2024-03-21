@@ -11,7 +11,10 @@ public class EnemyAttack : MonoBehaviour
     [SerializeField] float _shootSpeed;
     [SerializeField] GameObject _projectile;
     [SerializeField] EnemyLongRangePlayerDetecter _enemyLongRangePlayerDetecter;
+
+    [SerializeField] GameObject _explosionParticle;
     Enemy _enemy;
+    EnemyFeedback _enemyFeedback;
 
     float _longRangeTimer;
     Transform _transform;
@@ -20,6 +23,7 @@ public class EnemyAttack : MonoBehaviour
     {
         _enemy = GetComponent<Enemy>();
         _transform = transform;
+        _enemyFeedback = GetComponentInChildren<EnemyFeedback>();
     }
 
     private void Start()
@@ -50,7 +54,7 @@ public class EnemyAttack : MonoBehaviour
 
     public void LongRangeAttack()
     {
-        if (_enemy)
+        if (Player.Instance.gameObject.activeSelf && _enemy)
         {
             if (_enemy.CurrentEnemyType == Enemy.EnemyType.LongRangeEnemy && _enemyLongRangePlayerDetecter.PlayerDetected)
             {
@@ -64,6 +68,15 @@ public class EnemyAttack : MonoBehaviour
                         projectileSpawned.transform.right = Player.Instance.transform.position - transform.position;
                         if (projectileSpawned.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
                         {
+                            SFXManager.Instance.PlayShotSFX(gameObject);
+                            StartCoroutine(_enemyFeedback.Squeeze());
+                            GameObject particle = Instantiate(_explosionParticle, _transform);
+                            Destroy(particle, 1);
+                            particle.transform.right = shotDirection;
+                            foreach (Transform child in particle.transform)
+                            {
+                                child.GetComponent<ParticleSystem>().Play();
+                            }
                             rb.velocity = shotDirection * _shootSpeed;
                         }
                         else

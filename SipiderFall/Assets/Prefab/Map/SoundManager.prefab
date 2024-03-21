@@ -45,3 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _jump: {fileID: 8300000, guid: 833f587b18ef1ca47bb4a12fece95a65, type: 3}
+  _shoot: {fileID: 8300000, guid: fc1e05690043cbe4493eb7e6eea5d2ed, type: 3}
+  _destroyBloc: {fileID: 8300000, guid: 9608a4e76b0c4374484693afc691ce27, type: 3}
+  _win: {fileID: 8300000, guid: 0282091c6db3e2e40bc0da1d9189a992, type: 3}
+  _lose: {fileID: 8300000, guid: 64b12c2089083ce49a922b19aa1dc7de, type: 3}
