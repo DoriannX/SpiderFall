@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,81 +6,97 @@ public class EnemyManager : MonoBehaviour
 {
 
     //Enemy
-    private List<GameObject> _enemyList = new List<GameObject>();
     public int EnemyAmount;
-    int _maxEnemyAmount;
 
     //Components
     Transform _transform;
     [SerializeField] GameObject _enemy;
+    [SerializeField] GameObject _longRangeEnemy;
+    [SerializeField] GameObject _flyingEnemy;
 
     //while 
     [SerializeField] int _iterMax = 1;
 
     //Instance
     public static EnemyManager Instance;
-    public bool IsTuto = true;
-    public bool IsTutoDie = true;
 
-    public UnityEvent EnemySpawned;
-
-
+    [HideInInspector] public UnityEvent EnemySpawned;
 
     private void Awake()
     {
         _transform = transform;
         if(Instance == null)
             Instance = this;
+
     }
 
-    private void Start()
+    public void SpawnEnemy(Enemy.EnemyType typeToSpawn)
     {
-    }
-
-    public void ResetEnemies()
-    {
-        foreach(GameObject enemy in _enemyList.ToList())
+        int maxAmount = 0;
+        GameObject enemyToSpawn = null;
+        switch (typeToSpawn)
         {
-            Destroy(enemy);
-            _enemyList.Remove(enemy);
+            case Enemy.EnemyType.NormalEnemy: 
+                maxAmount = GameManager.Instance.Level.EnemyAmount;
+                enemyToSpawn = _enemy;
+                break;
+            case Enemy.EnemyType.LongRangeEnemy:
+                maxAmount = GameManager.Instance.Level.LongRangeEnemyAmount;
+                enemyToSpawn = _longRangeEnemy;
+                break;
+            case Enemy.EnemyType.FlyingEnemy:
+                maxAmount = GameManager.Instance.Level.FlyingEnemyAmount;
+                enemyToSpawn = _flyingEnemy;
+                break;
         }
+        List<GameObject> walls = WallManager.Instance.GetBlocsMap();
+        if (enemyToSpawn)
+        {
+            for (int i = 0; i < maxAmount; i++)
+            {
+                bool spawn = true;
+                int j = 0;
+                while (spawn)
+                {
+                    Vector3 randomPos = Vector3.zero;
+                    if (typeToSpawn != Enemy.EnemyType.FlyingEnemy)
+                        randomPos = walls[Random.Range(0, walls.Count - 1)].transform.position + Vector3.up;
+                    else
+                        randomPos = new Vector3Int((int)Random.Range(-Tools.GetScreenSize().x / 2, Tools.GetScreenSize().x/2), Random.Range((int)Player.Instance.transform.position.y - (int)(Tools.GetScreenSize().y / 2), -GameManager.Instance.Level.MapSize));
+                    Collider2D[] hits = Physics2D.OverlapCircleAll(randomPos, .1f);
+                    if (hits.Length <= 0)
+                    {
+                        Instantiate(enemyToSpawn, randomPos, Quaternion.identity, _transform);
+                        EnemyAmount++;
+                        spawn = false;
+                    }
+                    j++;
+                    if (j > _iterMax)
+                    {
+                        print("failed");
+                        break;
+                    }
+                }
+
+
+            }
+        }
+        else
+            Debug.LogError("No long range enemy in EnemyManager");
     }
 
     public void SpawnEnemies()
     {
-        _maxEnemyAmount = GameManager.Instance.Level.EnemyAmount;
-        List<GameObject> walls = WallManager.Instance.GetBlocsMap();
         if (_enemy)
         {
-            int i = 0;
-            while (EnemyAmount < _maxEnemyAmount)
-            {
-
-                bool spawn = true;
-                Vector3 randomPos = walls[(int)Random.Range(0, walls.Count - 1)].transform.position + Vector3.up;
-                Collider2D[] hit = Physics2D.OverlapCircleAll(randomPos, .1f);
-
-                foreach(Collider2D hit2d in hit)
-                {
-                    if(hit2d != null)
-                    {
-                        spawn = false;
-                    }
-                }
-                if (spawn)
-                {
-                    _enemyList.Add(Instantiate(_enemy, randomPos, Quaternion.identity, _transform));
-                    EnemyAmount++;
-                }
-                i++;
-                if(i >= _iterMax)
-                {
-                    break;
-                }
-            }
-            EnemySpawned.Invoke();
+            SpawnEnemy(Enemy.EnemyType.NormalEnemy);
+            SpawnEnemy(Enemy.EnemyType.LongRangeEnemy);
+            SpawnEnemy(Enemy.EnemyType.FlyingEnemy);
+            EnemySpawned?.Invoke();
         }
         else
             Debug.LogError("enemy is not in serialize field");
     }
+
+    
 }

@@ -48,7 +48,6 @@ public class WinLoseMenu : MonoBehaviour
 
     public void StartFadeIn(float fadeDuration)
     {
-        print("started fade in");
         _actualAlpha = 0;
         _timeElapsed = 0;
         _backgroundImage.alpha = 0;
@@ -76,7 +75,6 @@ public class WinLoseMenu : MonoBehaviour
 
     public void StartFadeOut(float fadeDuration)
     {
-        print("started fade out");
         _actualAlpha = 0;
         _timeElapsed = 1;
         _backgroundImage.alpha = 1;

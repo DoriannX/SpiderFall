@@ -47,9 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyAmount: 0
   _enemy: {fileID: 1031693834651078201, guid: 52d632772aa7cd14e989e68fc3a10e91, type: 3}
+  _longRangeEnemy: {fileID: 1031693834651078201, guid: 290a8c26dc8ef184ba1ac4834cdda702, type: 3}
+  _flyingEnemy: {fileID: 1031693834651078201, guid: 8a6962cc4c359e142a48a06300bd6bfe, type: 3}
   _iterMax: 1000
-  IsTuto: 1
-  IsTutoDie: 1
   EnemySpawned:
     m_PersistentCalls:
       m_Calls: []

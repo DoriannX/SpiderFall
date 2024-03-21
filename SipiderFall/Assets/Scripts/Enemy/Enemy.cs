@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public enum EnemyType {LongRangeEnemy, NormalEnemy, FlyingEnemy };
     //stats
     [SerializeField] float _maxHealth = 10;
     float _health;
@@ -16,6 +17,7 @@ public class Enemy : MonoBehaviour
     EnemyFeedback _enemyFeedback;
     EnemyMovement _enemyMovement;
     EnemyAttack _enemyAttack;
+    public EnemyType CurrentEnemyType;
 
 
 

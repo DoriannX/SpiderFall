@@ -6,11 +6,13 @@ public class EnemyMovement : MonoBehaviour
     EnemyBorderDetecter _borderDetecter;
     [SerializeField] float _maxVelocity = 1;
     Rigidbody2D _rb;
+    Enemy _enemy;
 
     private void Awake()
     {
         _borderDetecter = GetComponent<EnemyBorderDetecter>();
         _rb = GetComponent<Rigidbody2D>();
+        _enemy = GetComponent<Enemy>();
     }
     private void FixedUpdate()
     {
@@ -18,7 +20,10 @@ public class EnemyMovement : MonoBehaviour
     }
     private void Update()
     {
-         _direction = _borderDetecter.DetectBorderAndWall(_direction);
+        if(_enemy.CurrentEnemyType == Enemy.EnemyType.FlyingEnemy)
+            _direction = _borderDetecter.DetectOnlyWall(_direction);
+        else
+            _direction = _borderDetecter.DetectBorderAndWall(_direction);
     }
 
     private void Patrol()

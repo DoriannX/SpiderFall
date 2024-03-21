@@ -1841,7 +1841,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPlayerDetecter: {fileID: 691267299296992904}
-  _enemyDamage: 1
+  EnemyDamage: 10
+  _rangeShotFrequency: 0
+  _shootSpeed: 0
+  _projectile: {fileID: 0}
+  _enemyLongRangePlayerDetecter: {fileID: 0}
 --- !u!114 &3950584231090409168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1855,6 +1859,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 10
+  CurrentEnemyType: 0
 --- !u!1 &4010548168527636793
 GameObject:
   m_ObjectHideFlags: 0

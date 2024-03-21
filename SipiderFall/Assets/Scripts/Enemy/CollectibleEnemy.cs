@@ -43,7 +43,7 @@ public class CollectibleEnemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(!_gathered && collision.gameObject.transform.parent.gameObject == Player.Instance.gameObject)
+        if(this.enabled && !_gathered && collision.gameObject.transform.parent.gameObject == Player.Instance.gameObject)
         {
             if (_plusOneFeedback)
                 _plusOneFeedback.ShowPlusOne();

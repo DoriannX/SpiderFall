@@ -100,7 +100,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Shot()
     {
-        print("shot");
         HapticFeedback.LightFeedback();
         bool grounded = Tools.IsGrounded(gameObject, _groundRange);
 
@@ -132,7 +131,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        print("move");
         if (context.started)
             Shot();
     }

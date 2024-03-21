@@ -6,6 +6,8 @@ public class LevelManager : ScriptableObject
 {
     public bool ActiveTuto;
     public int EnemyAmount;
+    public int LongRangeEnemyAmount;
+    public int FlyingEnemyAmount;
     public int MapSize;
     int ActualLevel = 1;
 
@@ -15,7 +17,9 @@ public class LevelManager : ScriptableObject
     {
         HasToReset = false;
         EnemyAmount = 10;
-        MapSize = 75;
+        LongRangeEnemyAmount = 5;
+        FlyingEnemyAmount = 5;
+        MapSize = 100;
         ActualLevel = 1;
     }
 
@@ -23,6 +27,8 @@ public class LevelManager : ScriptableObject
     {
         ActiveTuto = false;
         EnemyAmount += 5;
+        LongRangeEnemyAmount += 3;
+        FlyingEnemyAmount += 5;
         MapSize += 20;
         ActualLevel ++;
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
