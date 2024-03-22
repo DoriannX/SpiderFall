@@ -28,38 +28,7 @@ public class LevelManager : ScriptableObject
     }
 
     public void AwakeLevel()
-    {/*
-        if (!PlayerPrefs.HasKey("ActiveTuto"))
-        {
-            PlayerPrefs.SetInt("ActiveTuto", 1);
-            PlayerPrefs.Save();
-        }
-        if (!PlayerPrefs.HasKey("EnemyAmount"))
-        {
-            PlayerPrefs.SetInt("EnemyAmount", 10);
-            PlayerPrefs.Save();
-        }
-        if (!PlayerPrefs.HasKey("LongRangeEnemyAmount"))
-        {
-            PlayerPrefs.SetInt("LongRangeEnemyAmount", 5);
-            PlayerPrefs.Save();
-        }
-        if (!PlayerPrefs.HasKey("FlyingEnemyAmount"))
-        {
-            PlayerPrefs.SetInt("FlyingEnemyAmount", 5);
-            PlayerPrefs.Save();
-        }
-        if (!PlayerPrefs.HasKey("MapSize"))
-        {
-            PlayerPrefs.SetInt("MapSize", 100);
-            PlayerPrefs.Save();
-        }
-        if (!PlayerPrefs.HasKey("ActualLevel"))
-        {
-            PlayerPrefs.SetInt("ActualLevel", 1);
-            PlayerPrefs.Save();
-        }*/
-
+    {
         ActiveTuto = (PlayerPrefs.GetInt("ActiveTuto") == 1) ? true : false;
         EnemyAmount = PlayerPrefs.GetInt("EnemyAmount");
         LongRangeEnemyAmount = PlayerPrefs.GetInt("LongRangeEnemyAmount");
