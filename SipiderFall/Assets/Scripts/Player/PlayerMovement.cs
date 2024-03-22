@@ -106,10 +106,6 @@ public class PlayerMovement : MonoBehaviour
         if (grounded)
         {
             StartStopFall(_groundStopFallTime);
-            if (_impulseSource)
-                _impulseSource.GenerateImpulse(new Vector3(0, .1f));
-            else
-                Debug.LogError("No impulseSource in Player");
             Jump(JumpForce * JumpMulti);
         }
         else

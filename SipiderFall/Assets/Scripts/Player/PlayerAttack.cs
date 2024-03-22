@@ -20,7 +20,6 @@ public class PlayerAttack : MonoBehaviour
 
     private void Awake()
     {
-
         _transform = transform;
         _impulseSource = GetComponent<CinemachineImpulseSource>();
         _feedback = GetComponentInChildren<PlayerFeedback>();
@@ -30,7 +29,6 @@ public class PlayerAttack : MonoBehaviour
     {
         if ((gameObject.activeSelf))
         {
-            _impulseSource.GenerateImpulse(new Vector3(0, .05f));
             List<GameObject> objectDetected = new List<GameObject>();
             if (_obstacleDetecter)
                 objectDetected = _obstacleDetecter.DetectedObject;
@@ -41,7 +39,6 @@ public class PlayerAttack : MonoBehaviour
             Destroy(targetPoint, .6f);
             foreach (GameObject shotHit in objectDetected.ToList()) // objectDetected is being modified in the foreach so it has to be a copy of the list
             {
-                _impulseSource.GenerateImpulse(new Vector3(0, .25f));
                 if (shotHit.transform.parent.TryGetComponent<Enemy>(out Enemy enemy))
                 {
                     enemy.TakeDamage(_playerDamage);

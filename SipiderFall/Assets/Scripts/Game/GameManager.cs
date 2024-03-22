@@ -19,9 +19,8 @@ public class GameManager : MonoBehaviour
         if(Instance == null)
             Instance = this;
         _input = GetComponent<PlayerInput>();
-
         if (Level.HasToReset)
-            Level.Reset();
+            Level.ResetLevel();
     }
 
     private void Start()

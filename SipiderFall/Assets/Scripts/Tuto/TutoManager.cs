@@ -50,14 +50,15 @@ public class TutoManager : MonoBehaviour
     {
 
         ActivateTuto = GameManager.Instance.Level.ActiveTuto;
+        Vector3 _playerPos = Player.Instance.transform.position;
         _playerTransform = Player.Instance.transform;
         if (ActivateTuto)
         {
+            StartSlowDownTime((_playerPos + Vector3.down * 3).y);
             _tutoMap.SetActive(true);
             _handTuto.SetActive(true);
             _tiltPhoneTuto.SetActive(false);
             _ArrowTuto.SetActive(false);
-            StartSlowDownTime((Player.Instance.transform.position + Vector3.down * 3).y);
             SlowTime = true;
             PlayerMovement.Instance.CanMove = false;
             IsTuto = true;

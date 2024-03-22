@@ -133,6 +133,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 10
   _damageImpulsionForce: 250
+  Died:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8870460427516506034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _obstacleDetecter: {fileID: 4982934962625020868}
   _radius: 1
-  _playerDamage: 2
+  _playerDamage: 5
   ShotRange: 5
   _ray: {fileID: -2442296370023614684, guid: 35119bb1fc851c6438610b3cba44a711, type: 3}
 --- !u!114 &2217983408917294627
@@ -397,7 +400,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1597a80d29ca3a348916140dd911f6bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -419,7 +422,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 0.6666665, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.666667, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
