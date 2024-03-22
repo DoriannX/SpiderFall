@@ -42,13 +42,14 @@ public class TutoManager : MonoBehaviour
 
     private void Awake()
     {
-        ActivateTuto = GameManager.Instance.Level.ActiveTuto;
         if (Instance == null)
             Instance = this;
     }
 
     private void Start()
     {
+
+        ActivateTuto = GameManager.Instance.Level.ActiveTuto;
         _playerTransform = Player.Instance.transform;
         if (ActivateTuto)
         {
