@@ -39,6 +39,7 @@ public class Enemy : MonoBehaviour
     {
         _health = _maxHealth;
         _collectibleEnemy.enabled = false;
+        _sprite.material.SetColor("_Color", _sprite.color);
     }
     public void TakeDamage(float damage)
     {
@@ -50,6 +51,7 @@ public class Enemy : MonoBehaviour
     IEnumerator CheckLife()
     {
         StartCoroutine(_enemyFeedback.ChangeSizeRenderer());
+        _sprite.material.SetFloat("_Health", _health / _maxHealth);
         yield return StartCoroutine(_enemyFeedback.ChangeSizeRenderer());
         if (_health <= 0)
         {
@@ -61,8 +63,6 @@ public class Enemy : MonoBehaviour
     public void Die()
     {
         _collectibleEnemy.enabled = true;
-        _sprite.transform.localScale = Vector3.one;
-        Tools.SetLayer(gameObject, 0);
         Destroy(_playerDetecter);
         TutoManager.Instance.NextFeedback();
         _enemyFeedback.ResetSprite();

@@ -38,6 +38,15 @@ public class CollectibleEnemy : MonoBehaviour
     private void OnEnable()
     {
         StartCoroutine(_enemyFeedback.Blink(() => _gathered));
+        Tools.SetLayer(gameObject, 0);
+        _rb.excludeLayers = 0;
+        _collider.excludeLayers = 0;
+        _sprite.transform.localScale = Vector3.one;
+    }
+
+    private void Update()
+    {
+        _sprite.transform.localScale = Vector3.one;
     }
 
 
@@ -53,6 +62,7 @@ public class CollectibleEnemy : MonoBehaviour
             _collider.isTrigger = false;
             ConfigureRigidbody(_rb, false, _notTouchingDeadEnemies, _enemyMass, -10);
             _gathered=true;
+            Tools.SetLayer(gameObject, 6);
 
             if(_playerTransform.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
             {

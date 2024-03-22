@@ -19,7 +19,8 @@ public class Player : MonoBehaviour
     [SerializeField] float _damageImpulsionForce;
 
     public UnityEvent Died;
-     
+    SpriteRenderer _renderer;
+
     private void Awake()
     {
         if(Instance == null)
@@ -27,16 +28,18 @@ public class Player : MonoBehaviour
         _transform = transform;
         _impulseSource = GetComponent<CinemachineImpulseSource>();
         _rb = GetComponent<Rigidbody2D>();
+        _renderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Start()
     {
         _health = _maxHealth;
+        _renderer.material.SetColor("_Color", _renderer.color);
     }
     
     public float TakeDamage(float damage)
     {
-        
+        _renderer.material.SetFloat("_Health", _health / _maxHealth);
         _health -= damage;
         foreach(Transform child in _transform)
         {
@@ -45,7 +48,7 @@ public class Player : MonoBehaviour
                 _rb.AddForce(Vector3.up * _damageImpulsionForce);
                 StartCoroutine(playerFeedback.Feedback());
                 if (_impulseSource)
-                    _impulseSource.GenerateImpulse(10);
+                    _impulseSource.GenerateImpulse(1);
                 else
                     Debug.LogError("no impulse source in Player");
                 break;

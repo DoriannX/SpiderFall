@@ -18,6 +18,7 @@ public class EnemyAttack : MonoBehaviour
 
     float _longRangeTimer;
     Transform _transform;
+    public Coroutine Coroutine;
 
     private void Awake()
     {
@@ -71,7 +72,7 @@ public class EnemyAttack : MonoBehaviour
                             if (projectileSpawned.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
                             {
                                 SFXManager.Instance.PlayShotSFX(gameObject);
-                                StartCoroutine(_enemyFeedback.Squeeze());
+                                Coroutine = StartCoroutine(_enemyFeedback.Squeeze());
                                 GameObject particle = Instantiate(_explosionParticle, _transform);
                                 Destroy(particle, 1);
                                 particle.transform.right = shotDirection;

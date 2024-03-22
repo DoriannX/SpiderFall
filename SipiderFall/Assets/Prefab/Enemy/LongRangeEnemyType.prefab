@@ -122,7 +122,7 @@ MonoBehaviour:
   _enemyMass: 0.001
   _notTouchingDeadEnemies:
     serializedVersion: 2
-    m_Bits: 127
+    m_Bits: 447
 --- !u!50 &7875705877943835666
 Rigidbody2D:
   serializedVersion: 4
@@ -425,7 +425,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1597a80d29ca3a348916140dd911f6bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

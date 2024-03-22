@@ -20,7 +20,7 @@ public class ObstacleDetecter : MonoBehaviour
         if (_playerAttack)
         {
             _transform.position = _playerAttack.transform.position + Vector3.down / 2 + Vector3.down * _playerAttack.ShotRange / 2;
-            _transform.localScale = new Vector3(1, _playerAttack.ShotRange);
+            _transform.localScale = new Vector3(1, _playerAttack.ShotRange * _playerAttack.transform.localScale.y * 2);
         }
         else
             Debug.LogError("No player attack in ObstacleDetected");

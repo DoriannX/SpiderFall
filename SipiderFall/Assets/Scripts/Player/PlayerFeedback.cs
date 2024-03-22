@@ -43,7 +43,7 @@ public class PlayerFeedback : MonoBehaviour
 
     }
 
-    IEnumerator ChangeColor(SpriteRenderer sprite) 
+    IEnumerator ChangeColor(SpriteRenderer sprite)
     {
         _actualColor = Player.Instance.RatioHealth() * 260 / 360;
         sprite.color = Color.HSVToRGB(_actualColor, 1, 1);
@@ -56,7 +56,7 @@ public class PlayerFeedback : MonoBehaviour
     public IEnumerator Feedback()
     {
         yield return StartCoroutine(ChangeSize(_sprite, _distortionSize));
-        StartCoroutine(ChangeColor(_sprite));
+        //StartCoroutine(ChangeColor(_sprite));
         yield return new WaitForSecondsRealtime(2f);
         Tools.SetLayer(_sprite.transform.parent.gameObject, 3);
     }
