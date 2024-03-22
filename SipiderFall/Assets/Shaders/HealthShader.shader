@@ -1,4 +1,4 @@
-Shader "Custom/HealthShader"
+Shader "UI/HealthShader"
 {
     Properties
     {
@@ -9,15 +9,18 @@ Shader "Custom/HealthShader"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
         LOD 100
 
         Pass
         {
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZWrite Off
+            ColorMask RGB
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            
             #include "UnityCG.cginc"
 
             struct appdata

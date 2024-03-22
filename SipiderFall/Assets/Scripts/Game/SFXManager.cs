@@ -39,10 +39,11 @@ public class SFXManager : MonoBehaviour
         Destroy(newAudioSource, _shoot.length);
     }
 
-    public void PlayDestroyBloc(GameObject bloc)
+    public void PlayDestroyBloc()
     {
         AudioSource newAudioSource = gameObject.AddComponent<AudioSource>();
         newAudioSource.clip = _destroyBloc;
+        newAudioSource.volume = .1f;
         newAudioSource.Play();
 
         Destroy(newAudioSource, _destroyBloc.length);
