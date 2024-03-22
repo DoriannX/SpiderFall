@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
     {
         _renderer.material.SetFloat("_Health", _health / _maxHealth);
         _health -= damage;
+        SFXManager.Instance.PlayHit();
         foreach(Transform child in _transform)
         {
             if(child.TryGetComponent<PlayerFeedback>(out PlayerFeedback playerFeedback))

@@ -50,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         _groundRange += _transform.localScale.x / 2;
+        SFXManager.Instance.PlayFall();
     }
 
     IEnumerator StopFall(float time)
@@ -70,6 +71,26 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         accelerationX = Input.acceleration.x;
+        CheckGroundedForSong();
+    }
+    bool wasGroundedLastFrame;
+    private void CheckGroundedForSong()
+    {
+        bool isGroundedThisFrame = Tools.IsGrounded(gameObject, _groundRange);
+
+        if (isGroundedThisFrame != wasGroundedLastFrame)
+        {
+            if (!isGroundedThisFrame)
+            {
+                SFXManager.Instance.PlayFall();
+            }
+            else
+            {
+                SFXManager.Instance.StopFall();
+            }
+        }
+
+        wasGroundedLastFrame = isGroundedThisFrame;
     }
     private void FixedUpdate()
     {

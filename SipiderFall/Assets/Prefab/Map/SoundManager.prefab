@@ -49,3 +49,5 @@ MonoBehaviour:
   _destroyBloc: {fileID: 8300000, guid: 9608a4e76b0c4374484693afc691ce27, type: 3}
   _win: {fileID: 8300000, guid: 0282091c6db3e2e40bc0da1d9189a992, type: 3}
   _lose: {fileID: 8300000, guid: 64b12c2089083ce49a922b19aa1dc7de, type: 3}
+  _fall: {fileID: 8300000, guid: 8e045ded8050c2c4f8c1fdd2c04f87aa, type: 3}
+  _hit: {fileID: 8300000, guid: 89da59f8ad80e8d4a87089f47cf88407, type: 3}

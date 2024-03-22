@@ -10,6 +10,10 @@ public class SFXManager : MonoBehaviour
     [SerializeField] AudioClip _destroyBloc;
     [SerializeField] AudioClip _win;
     [SerializeField] AudioClip _lose;
+    [SerializeField] AudioClip _fall;
+    [SerializeField] AudioClip _hit;
+
+    AudioSource _windAudioSource;
 
     private void Awake()
     {
@@ -64,6 +68,34 @@ public class SFXManager : MonoBehaviour
         AudioSource newAudioSource = gameObject.AddComponent<AudioSource>();
 
         newAudioSource.clip = _lose;
+        newAudioSource.Play();
+
+        Destroy(newAudioSource, _lose.length);
+    }
+
+    public void PlayFall()
+    {
+        _windAudioSource = gameObject.AddComponent<AudioSource>();
+
+        _windAudioSource.clip = _fall;
+        _windAudioSource.loop = true;
+        _windAudioSource.Play();
+
+        if(_windAudioSource)
+            Destroy(_windAudioSource, _fall.length);
+    }
+
+    public void StopFall()
+    {
+        if(_windAudioSource)
+            Destroy(_windAudioSource);
+    }
+
+    public void PlayHit()
+    {
+        AudioSource newAudioSource = gameObject.AddComponent<AudioSource>();
+
+        newAudioSource.clip = _hit;
         newAudioSource.Play();
 
         Destroy(newAudioSource, _lose.length);

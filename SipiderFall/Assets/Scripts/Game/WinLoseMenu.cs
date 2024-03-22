@@ -101,6 +101,7 @@ public class WinLoseMenu : MonoBehaviour
 
     public void OpenMenu()
     {
+        SFXManager.Instance.StopFall();
         _isMenuOpened = true;
         StartFadeIn(1);
     }
