@@ -2078,7 +2078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 10
   _playerDetecter: {fileID: 0}
-  CurrentEnemyType: 0
+  CurrentEnemyType: 1
 --- !u!1 &4010548168527636793
 GameObject:
   m_ObjectHideFlags: 0
