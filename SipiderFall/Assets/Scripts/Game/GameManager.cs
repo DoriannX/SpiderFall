@@ -52,14 +52,4 @@ public class GameManager : MonoBehaviour
         _actualLevelText.text = "Level : " + Level.GetActualLevel();
     }
 
-    private void OnApplicationQuit()
-    {
-        Level.OnQuitLevel();
-    }
-
-    private void OnDestroy()
-    {
-        Level.OnQuitLevel();
-    }
-
 }

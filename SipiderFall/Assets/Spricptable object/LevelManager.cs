@@ -45,17 +45,6 @@ public class LevelManager : ScriptableObject
         FlyingEnemyAmount += 5;
         MapSize += 20;
         ActualLevel ++;
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-        Debug.Log("next level");
-    }
-
-    public int GetActualLevel()
-    {
-        return ActualLevel;
-    }
-
-    public void OnQuitLevel()
-    {
         if (ActiveTuto)
             PlayerPrefs.SetInt("ActiveTuto", 1);
         else
@@ -65,5 +54,12 @@ public class LevelManager : ScriptableObject
         PlayerPrefs.SetInt("FlyingEnemyAmount", FlyingEnemyAmount);
         PlayerPrefs.SetInt("MapSize", MapSize);
         PlayerPrefs.SetInt("ActualLevel", ActualLevel);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        Debug.Log("next level");
+    }
+
+    public int GetActualLevel()
+    {
+        return ActualLevel;
     }
 }
