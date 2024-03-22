@@ -29,7 +29,6 @@ public class LevelManager : ScriptableObject
 
     public void AwakeLevel()
     {
-        ActiveTuto = (PlayerPrefs.GetInt("ActiveTuto") == 1) ? true : false;
         EnemyAmount = PlayerPrefs.GetInt("EnemyAmount");
         LongRangeEnemyAmount = PlayerPrefs.GetInt("LongRangeEnemyAmount");
         FlyingEnemyAmount = PlayerPrefs.GetInt("FlyingEnemyAmount");
