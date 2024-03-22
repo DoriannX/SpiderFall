@@ -16,12 +16,12 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        Level.AwakeLevel();
         if (Instance == null)
             Instance = this;
         _input = GetComponent<PlayerInput>();
         if (Level.HasToReset)
             Level.ResetLevel();
+        Level.AwakeLevel();
     }
 
     private void Start()
@@ -50,6 +50,16 @@ public class GameManager : MonoBehaviour
     public void RefreshLevel()
     {
         _actualLevelText.text = "Level : " + Level.GetActualLevel();
+    }
+
+    private void OnApplicationQuit()
+    {
+        Level.OnQuitLevel();
+    }
+
+    private void OnDestroy()
+    {
+        Level.OnQuitLevel();
     }
 
 }
