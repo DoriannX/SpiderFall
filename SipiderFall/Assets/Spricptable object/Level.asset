@@ -17,4 +17,4 @@ MonoBehaviour:
   LongRangeEnemyAmount: 5
   FlyingEnemyAmount: 5
   MapSize: 100
-  HasToReset: 0
+  HasToReset: 1

@@ -26,12 +26,12 @@ public class LevelManager : ScriptableObject
 
     public void OnEnable()
     {
-        ActiveTuto = (PlayerPrefs.GetInt("ActiveTuto") == 1) ? true : false;
-        EnemyAmount = PlayerPrefs.GetInt("EnemyAmount");
-        LongRangeEnemyAmount = PlayerPrefs.GetInt("LongRangeEnemyAmount");
-        FlyingEnemyAmount = PlayerPrefs.GetInt("FlyingEnemyAmount");
-        MapSize = PlayerPrefs.GetInt("MapSize");
-        ActualLevel = PlayerPrefs.GetInt("ActualLevel");
+        ActiveTuto = (PlayerPrefs.GetInt("ActiveTuto", 1) == 1) ? true : false;
+        EnemyAmount = PlayerPrefs.GetInt("EnemyAmount", 10);
+        LongRangeEnemyAmount = PlayerPrefs.GetInt("LongRangeEnemyAmount", 5);
+        FlyingEnemyAmount = PlayerPrefs.GetInt("FlyingEnemyAmount", 5);
+        MapSize = PlayerPrefs.GetInt("MapSize", 100);
+        ActualLevel = PlayerPrefs.GetInt("ActualLevel", 1);
         Debug.Log(ActualLevel);
     }
 
