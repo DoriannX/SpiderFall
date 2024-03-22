@@ -16,7 +16,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
+        Level.AwakeLevel();
+        if (Instance == null)
             Instance = this;
         _input = GetComponent<PlayerInput>();
         if (Level.HasToReset)

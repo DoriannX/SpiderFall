@@ -24,7 +24,7 @@ public class LevelManager : ScriptableObject
         HasToReset = false;
     }
 
-    public void OnEnable()
+    public void AwakeLevel()
     {
         ActiveTuto = (PlayerPrefs.GetInt("ActiveTuto", 1) == 1) ? true : false;
         EnemyAmount = PlayerPrefs.GetInt("EnemyAmount", 10);
