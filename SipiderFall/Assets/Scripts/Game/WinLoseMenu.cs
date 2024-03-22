@@ -32,6 +32,7 @@ public class WinLoseMenu : MonoBehaviour
         FinishLevelDetecter.Instance.LevelFinished.AddListener(OpenMenu);
         _selecterSprite.color = new Color(_selecterSprite.color.r, _selecterSprite.color.g, _selecterSprite.color.b, 0);
         _backgroundImage.alpha = 0;
+        Player.Instance.Died.AddListener(OpenMenu);
     }
 
     private void Update()
@@ -117,10 +118,9 @@ public class WinLoseMenu : MonoBehaviour
             GameManager.Instance.RestartLevel();
             _isMenuOpened = false;
         }
-        if (_selecter.transform.position.x > 5)
+        if (FinishLevelDetecter.Instance.Won && _selecter.transform.position.x > 5)
         {
-            if(FinishLevelDetecter.Instance.Won)
-                GameManager.Instance.NextLevel();
+            GameManager.Instance.NextLevel();
             _isMenuOpened = false;
         }
     }

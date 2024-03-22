@@ -54,41 +54,44 @@ public class EnemyAttack : MonoBehaviour
 
     public void LongRangeAttack()
     {
-        if (Player.Instance.gameObject.activeSelf && _enemy)
+        if (_enemy)
         {
-            if (_enemy.CurrentEnemyType == Enemy.EnemyType.LongRangeEnemy && _enemyLongRangePlayerDetecter.PlayerDetected)
-            {
-                _longRangeTimer -= Time.deltaTime;
-                if (_longRangeTimer <= 0)
+            if(Player.Instance.gameObject.activeSelf)
+            {  
+                if (_enemy.CurrentEnemyType == Enemy.EnemyType.LongRangeEnemy && _enemyLongRangePlayerDetecter.PlayerDetected)
                 {
-                    Vector3 shotDirection = (Player.Instance.transform.position - _transform.position).normalized;
-                    if (_projectile)
+                    _longRangeTimer -= Time.deltaTime;
+                    if (_longRangeTimer <= 0)
                     {
-                        GameObject projectileSpawned = Instantiate(_projectile, _transform);
-                        projectileSpawned.transform.right = Player.Instance.transform.position - transform.position;
-                        if (projectileSpawned.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
+                        Vector3 shotDirection = (Player.Instance.transform.position - _transform.position).normalized;
+                        if (_projectile)
                         {
-                            SFXManager.Instance.PlayShotSFX(gameObject);
-                            StartCoroutine(_enemyFeedback.Squeeze());
-                            GameObject particle = Instantiate(_explosionParticle, _transform);
-                            Destroy(particle, 1);
-                            particle.transform.right = shotDirection;
-                            foreach (Transform child in particle.transform)
+                            GameObject projectileSpawned = Instantiate(_projectile, _transform);
+                            projectileSpawned.transform.right = Player.Instance.transform.position - transform.position;
+                            if (projectileSpawned.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
                             {
-                                child.GetComponent<ParticleSystem>().Play();
+                                SFXManager.Instance.PlayShotSFX(gameObject);
+                                StartCoroutine(_enemyFeedback.Squeeze());
+                                GameObject particle = Instantiate(_explosionParticle, _transform);
+                                Destroy(particle, 1);
+                                particle.transform.right = shotDirection;
+                                foreach (Transform child in particle.transform)
+                                {
+                                    child.GetComponent<ParticleSystem>().Play();
+                                }
+                                rb.velocity = shotDirection * _shootSpeed;
                             }
-                            rb.velocity = shotDirection * _shootSpeed;
+                            else
+                                Debug.LogError("No rigidbody on projectile");
                         }
                         else
-                            Debug.LogError("No rigidbody on projectile");
+                            Debug.LogError("no projectile in enemy attack");
+                        _longRangeTimer = _rangeShotFrequency;
                     }
-                    else
-                        Debug.LogError("no projectile in enemy attack");
-                    _longRangeTimer = _rangeShotFrequency;
                 }
+                else
+                    _longRangeTimer = _rangeShotFrequency;
             }
-            else
-                _longRangeTimer = _rangeShotFrequency;
         }
         else
             Debug.LogError("no enemy on enemyAttack");

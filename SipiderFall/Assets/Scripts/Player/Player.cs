@@ -1,5 +1,6 @@
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class Player : MonoBehaviour
     public static Player Instance;
 
     [SerializeField] float _damageImpulsionForce;
+
+    public UnityEvent Died;
      
     private void Awake()
     {
@@ -60,6 +63,7 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
+        Died?.Invoke();
         gameObject.SetActive(false);
     }
 
