@@ -68,6 +68,7 @@ public class Player : MonoBehaviour
     private void Die()
     {
         Died?.Invoke();
+        SFXManager.Instance.PlayLose();
         gameObject.SetActive(false);
     }
 
